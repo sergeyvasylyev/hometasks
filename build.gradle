@@ -1,0 +1,44 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+group = 'com.vasylyev.homework'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
+
+	compile 'com.google.api-client:google-api-client:1.23.0'
+	compile("com.google.oauth-client:google-oauth-client-jetty:1.23.0") {
+		exclude group: 'org.mortbay.jetty', module: 'servlet-api'
+	}
+	compile 'com.google.apis:google-api-services-classroom:v1-rev135-1.23.0'
+	compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.19.4'
+
+
+	compileOnly 'org.projectlombok:lombok:1.18.8'
+	annotationProcessor 'org.projectlombok:lombok:1.18.8'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
