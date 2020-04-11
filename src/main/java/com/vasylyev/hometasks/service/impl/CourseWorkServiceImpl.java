@@ -47,13 +47,14 @@ public class CourseWorkServiceImpl implements CourseWorkService {
                     .filter(c -> c.getId().equals(courseWorkDto.getId())).findFirst().orElse(null))) {
                 courseWorkRepository.save(courseWorkMapper.toModel(courseWorkDto));
                 log.info("Course Work saved. id:" + courseWorkDto.getId());
-
+/*
                 telegramNotifier.sendToTelegram("New Hometask: "
                         + "\n" + courseWorkDto.getCourse().getName()
                         + "\n" + courseWorkDto.getTitle()
                         + "\n" + courseWorkDto.getAlternateLink()
                         + (nonNull(courseWorkDto.getDueDate()) ? "\n" + courseWorkDto.getDueDate().toString() : "")
                 );
+                */
 
             } else {
                 //log.info("Course Work already exist. id:" + courseWorkDto.getId());

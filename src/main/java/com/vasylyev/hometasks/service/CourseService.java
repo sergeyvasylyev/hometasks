@@ -14,5 +14,7 @@ public interface CourseService {
 
     public List<CourseDto> findAll();
 
+    public List<String> findAllNames();
+
     public List<CourseDto> findByIds(Iterable<String> idList);
 }

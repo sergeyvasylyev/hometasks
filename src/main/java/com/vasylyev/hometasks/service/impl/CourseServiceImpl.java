@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,6 +58,14 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findAll().stream()
                 .map(c -> courseMapper.toDto(c))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findAllNames() {
+        List<String> courseNames = new ArrayList<>();
+        findAll().stream()
+                .forEach(c -> courseNames.add(c.getName()));
+        return courseNames;
     }
 
     @Override

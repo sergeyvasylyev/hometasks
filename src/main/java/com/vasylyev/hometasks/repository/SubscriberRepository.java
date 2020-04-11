@@ -11,4 +11,6 @@ public interface SubscriberRepository extends JpaRepository<Subscriber, Long> {
 
     public List<Subscriber> findByActiveTrue();
 
+    public Subscriber findByChatId(String chatId);
+
 }
