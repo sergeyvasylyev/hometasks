@@ -1,6 +1,6 @@
 package com.vasylyev.hometasks.controller;
 
-import com.vasylyev.hometasks.classroom.ClassroomService;
+import com.vasylyev.hometasks.google.ClassroomService;
 import com.vasylyev.hometasks.telegram.TelegramNotifier;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,5 +18,6 @@ public class ClassroomController {
         System.out.println("start app");
         return "index";
     }
+
     //TODO: add UI for subscribers
 }

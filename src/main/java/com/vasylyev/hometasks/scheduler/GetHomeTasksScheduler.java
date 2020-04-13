@@ -1,9 +1,8 @@
 package com.vasylyev.hometasks.scheduler;
 
-import com.vasylyev.hometasks.classroom.ClassroomService;
+import com.vasylyev.hometasks.google.ClassroomService;
 import com.vasylyev.hometasks.service.CourseService;
 import com.vasylyev.hometasks.service.CourseWorkService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

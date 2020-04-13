@@ -3,6 +3,7 @@ package com.vasylyev.hometasks.service.impl;
 import com.vasylyev.hometasks.dto.CourseDto;
 import com.vasylyev.hometasks.dto.CourseWorkDto;
 import com.vasylyev.hometasks.exception.ElementNotFoundException;
+import com.vasylyev.hometasks.google.GoogleSheetsService;
 import com.vasylyev.hometasks.mapper.CourseWorkMapper;
 import com.vasylyev.hometasks.model.CourseWorkModel;
 import com.vasylyev.hometasks.repository.CourseWorkRepository;
@@ -13,6 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +31,7 @@ public class CourseWorkServiceImpl implements CourseWorkService {
     private final CourseWorkMapper courseWorkMapper;
     private final CourseService courseService;
     private final TelegramNotifier telegramNotifier;
+    private final GoogleSheetsService googleSheetsService;
 
     @Override
     public CourseWorkDto addCourseWork(CourseWorkDto courseWorkDto) {
@@ -47,14 +51,23 @@ public class CourseWorkServiceImpl implements CourseWorkService {
                     .filter(c -> c.getId().equals(courseWorkDto.getId())).findFirst().orElse(null))) {
                 courseWorkRepository.save(courseWorkMapper.toModel(courseWorkDto));
                 log.info("Course Work saved. id:" + courseWorkDto.getId());
-/*
+
+                //send to telegram
                 telegramNotifier.sendToTelegram("New Hometask: "
                         + "\n" + courseWorkDto.getCourse().getName()
                         + "\n" + courseWorkDto.getTitle()
                         + "\n" + courseWorkDto.getAlternateLink()
                         + (nonNull(courseWorkDto.getDueDate()) ? "\n" + courseWorkDto.getDueDate().toString() : "")
                 );
-                */
+
+                //update google sheets
+                try {
+                    googleSheetsService.appendRow(courseWorkDto);
+                } catch (IOException e) {
+                    log.error("Error updating google sheet: " + e.getMessage());
+                } catch (GeneralSecurityException e) {
+                    log.error("Error updating google sheet: " + e.getMessage());
+                }
 
             } else {
                 //log.info("Course Work already exist. id:" + courseWorkDto.getId());

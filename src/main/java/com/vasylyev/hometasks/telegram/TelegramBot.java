@@ -37,6 +37,9 @@ public class TelegramBot extends TelegramLongPollingBot {
                 case "task":
                     sendMessage(updateMessage.getChatId().toString(), updateMessage.getText());
                     break;
+                case "Егор":
+                    sendMessage(updateMessage.getChatId().toString(), "Привет, Егор Дио!");
+                    break;
                 case "подписчики":
                     sendMessage(updateMessage.getChatId().toString()
                             , subscriberService.findAll().toString());
