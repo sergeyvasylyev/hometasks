@@ -1,6 +1,7 @@
 package com.vasylyev.hometasks.service.impl;
 
 import com.vasylyev.hometasks.dto.SubscriberDto;
+import com.vasylyev.hometasks.exception.ElementNotFoundException;
 import com.vasylyev.hometasks.mapper.SubscriberMapper;
 import com.vasylyev.hometasks.model.Subscriber;
 import com.vasylyev.hometasks.repository.SubscriberRepository;
@@ -32,6 +33,12 @@ public class SubscriberServiceImpl implements SubscriberService {
         return subscriberRepository.findByActiveTrue().stream()
                 .map(s -> subscriberMapper.toDto(s))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public SubscriberDto findById(String id) {
+        return subscriberMapper.toDto(
+                subscriberRepository.findById(Long.valueOf(id)).orElseThrow(() -> new ElementNotFoundException("Subscriber not found. id: " + id)));
     }
 
     @Override

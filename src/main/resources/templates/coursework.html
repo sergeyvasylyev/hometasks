@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
+
+    <script type="text/javascript" th:src="@{/lib/coursework.js}"></script>
+    <meta charset="UTF-8">
+    <title>Google Hometask</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <h1>Google Hometask. Courseworks</h1>
+    <table id="courseworkTable" class="display table table-bordered"
+           data-pagination="true"
+           data-id-field="id"
+           data-page-list="[10, 25, 50, 100, all]"
+           data-search="true">
+        <thead>
+        <tr>
+            <th data-field="id" data-visible="false" data-searchable="false">ID</th>
+            <th data-field="course.name" data-sortable="true">Course</th>
+            <th data-field="title" data-searchable="false">Title</th>
+            <th data-field="updateTime" data-sortable="true" data-order="desc">Update time</th>
+            <th data-field="dueDate">Due date</th>
+            <th data-field="alternateLink" data-searchable="false">Link</th>
+        </tr>
+        </thead>
+    </table>
+
+    <button type="submit" class="btn btn-primary" th:onclick="getAllCourseworks()">Get All</button>
+
+</div>
+</body>
+</html>

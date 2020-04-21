@@ -68,6 +68,7 @@ public class CourseWorkMapper {
                     , hours
                     , minutes);
         }
+        double maxPoints = nonNull(courseWork.getMaxPoints()) ? courseWork.getMaxPoints() : 0;
 
         return CourseWorkDto.builder()
                 .alternateLink(courseWork.getAlternateLink())
@@ -76,7 +77,7 @@ public class CourseWorkMapper {
                 .description(courseWork.getDescription())
                 .dueDate(dueDate)
                 .id(courseWork.getId())
-                .maxPoints(courseWork.getMaxPoints())
+                .maxPoints(maxPoints)
                 .state(courseWork.getState())
                 .updateTime(LocalDateTime.parse(courseWork.getUpdateTime(), formatter))
                 .title(courseWork.getTitle())

@@ -31,6 +31,7 @@ public class GetHomeTasksScheduler {
             log.info("Get hometask job started");
             courseService.addCourses(classroomService.getCourses());
             courseWorkService.addCourseWorks(classroomService.getCourseWork());
+            log.info("Get hometask job ended");
         }
     }
     //TODO: add new row at GoogleDoc for new hometask

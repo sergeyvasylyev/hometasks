@@ -10,6 +10,8 @@ public interface SubscriberService {
 
     public List<SubscriberDto> findAllActive();
 
+    public SubscriberDto findById(String id);
+
     public SubscriberDto findByChatId(String chatId);
 
     public SubscriberDto save(SubscriberDto subscriberDto);

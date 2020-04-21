@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/lib/settings.js}"></script>
+    <meta charset="UTF-8">
+    <title>Google Hometask</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <h1>Google Hometask. Settings</h1>
+    <button type="submit" class="btn btn-primary" th:onclick="forceJob()">Force GET hometask job</button>
+</div>
+</body>
+</html>

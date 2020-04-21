@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Google Hometask</title>
 </head>
 <body>
+<div layout:fragment="content" th:remove="tag">
+    <h1>Google Hometask</h1>
+    <br>
 
+    <p><a href="/course" th:href="@{/course}">Courses</a></p>
+    <p><a href="/coursework" th:href="@{/coursework}">Course works</a></p>
+    <p><a href="/subscriber" th:href="@{/subscriber}">Subscribers</a></p>
+    <hr/>
+    <p><a href="/settings" th:href="@{/settings}">Settings</a></p>
+
+</div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.6.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
 }
 
 group = 'com.vasylyev.homework'
@@ -9,42 +9,59 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+ext {
+    googleApiClientVersion = '1.30.6'
+    googleOauthClientVersion = '1.30.6'
+    googleApiClassroomVersion = 'v1-rev393-1.25.0'
+    googleApiSheetsVersion = 'v4-rev612-1.25.0'
+
+    mariadbClientVersion = '2.1.2'
+
+    telegrambotVersion = '4.1'
+
+    bootstrapVersion = '3.3.7'
+    jqueryVersion = '3.2.1'
+    thymeleafDialectVersion = '2.3.0'
+
+    lombokVersion = '1.18.8'
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:' + mariadbClientVersion
 
-	compile 'com.google.api-client:google-api-client:1.23.0'
-	compile("com.google.oauth-client:google-oauth-client-jetty:1.23.0") {
-		exclude group: 'org.mortbay.jetty', module: 'servlet-api'
-	}
-	compile 'com.google.apis:google-api-services-classroom:v1-rev135-1.23.0'
+    //google
+    compile group: 'com.google.api-client', name: 'google-api-client', version: googleApiClientVersion
+    compile group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: googleOauthClientVersion
+    compile group: 'com.google.apis', name: 'google-api-services-classroom', version: googleApiClassroomVersion
+    compile group: 'com.google.apis', name: 'google-api-services-sheets', version: googleApiSheetsVersion
 
-	//compile 'com.google.api-client:google-api-client:1.30.4'
-	//compile 'com.google.oauth-client:google-oauth-client-jetty:1.30.4'
-	compile 'com.google.apis:google-api-services-sheets:v4-rev581-1.25.0'
+    //telegram
+    compile group: 'org.telegram', name: 'telegrambots', version: telegrambotVersion
 
-	compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.19.4'
+    //thymeleaf
+    compile group: 'org.webjars', name: 'bootstrap', version: bootstrapVersion
+    compile group: 'org.webjars', name: 'jquery', version: jqueryVersion
+    compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: thymeleafDialectVersion
 
-	compile group: 'org.telegram', name: 'telegrambots', version: '4.1'
-
-	compileOnly 'org.projectlombok:lombok:1.18.8'
-	annotationProcessor 'org.projectlombok:lombok:1.18.8'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+    compileOnly 'org.projectlombok:lombok:' + lombokVersion
+    annotationProcessor 'org.projectlombok:lombok:' + lombokVersion
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

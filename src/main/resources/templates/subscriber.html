@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
+
+    <script type="text/javascript" th:src="@{/lib/subscriber.js}"></script>
+    <meta charset="UTF-8">
+    <title>Google Hometask</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <h1>Google Hometask. Subscribers</h1>
+    <br>
+    <div class="row">
+        <div class="table-responsive col-md-6">
+            <table id="subscriberTable" class="display table table-bordered">
+                <thead>
+                <tr>
+                    <th data-field="id" data-visible="false">ID</th>
+                    <th data-field="name">Name</th>
+                    <th data-field="active"
+                        data-checkbox="true"
+                        data-checkbox-enabled="false"
+                        data-show-select-title="true">Active</th>
+                    <th data-field="chatId">Chat ID</th>
+                    <th data-field="description">Description</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table-responsive col-md-6">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <input name="id" class="form-control" id="id" type="hidden">
+                        <label>Name</label>
+                        <input name="name" class="form-control" id="name">
+                        <label>Description</label>
+                        <input name="description" class="form-control" id="description">
+                        <label>Chat ID</label>
+                        <input name="chat_id" class="form-control" id="chatId">
+                        <br>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="active">
+                            <label class="form-check-label" for="active">Active</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="table-responsive col-md-6">
+            <button type="submit" class="btn btn-primary" th:onclick="getAllSubscribers()">Get All</button>
+        </div>
+        <div class="table-responsive col-md-6">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <button type="submit" class="btn btn-primary" th:onclick="updateSubscriber()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--    <p><a href="/" th:href="@{/}">Back to Home page</a></p>-->
+
+</div>
+</body>
+</html>
