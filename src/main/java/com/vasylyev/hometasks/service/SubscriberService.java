@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface SubscriberService {
 
-    public List<SubscriberDto> findAll();
+    List<SubscriberDto> findAll();
 
-    public List<SubscriberDto> findAllActive();
+    List<SubscriberDto> findAllActive();
 
-    public SubscriberDto findById(String id);
+    SubscriberDto findById(String id);
 
-    public SubscriberDto findByChatId(String chatId);
+    SubscriberDto findByChatId(String chatId);
 
-    public SubscriberDto save(SubscriberDto subscriberDto);
+    SubscriberDto save(SubscriberDto subscriberDto);
 }

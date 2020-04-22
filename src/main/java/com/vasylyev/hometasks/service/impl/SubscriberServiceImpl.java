@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
+
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -43,7 +46,8 @@ public class SubscriberServiceImpl implements SubscriberService {
 
     @Override
     public SubscriberDto findByChatId(String chatId) {
-        return subscriberMapper.toDto(subscriberRepository.findByChatId(chatId));
+        Subscriber subscriber = subscriberRepository.findByChatId(chatId).orElse(null);
+        return nonNull(subscriber) ? subscriberMapper.toDto(subscriber) : null;
     }
 
     @Override

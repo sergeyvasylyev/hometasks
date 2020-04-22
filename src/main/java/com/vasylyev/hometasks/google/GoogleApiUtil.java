@@ -9,7 +9,6 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class GoogleApiUtil {
      * @throws IOException If the credentials_gc.json file cannot be found.
      */
     public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT
-            , String tokenDir, String credentialsFileName, List<String> Scopes, String apiType ) throws IOException {
+            , String tokenDir, String credentialsFileName, List<String> Scopes, String apiType) throws IOException {
 
         // Load client secrets.
         InputStream in = null;

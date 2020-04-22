@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -33,6 +35,8 @@ public class CourseWorkServiceImpl implements CourseWorkService {
     private final TelegramNotifier telegramNotifier;
     private final GoogleSheetsService googleSheetsService;
 
+    private final String REGEX = "[^\\p{L}\\p{N}\\p{P}\\p{Z}]";
+
     @Override
     public CourseWorkDto addCourseWork(CourseWorkDto courseWorkDto) {
         CourseWorkModel courseWorkModel = courseWorkRepository.save(courseWorkMapper.toModel(courseWorkDto));
@@ -42,6 +46,9 @@ public class CourseWorkServiceImpl implements CourseWorkService {
 
     @Override
     public void addCourseWorks(List<CourseWorkDto> courseWorkDtoList) {
+
+        Pattern pattern = Pattern.compile(REGEX, Pattern.UNICODE_CHARACTER_CLASS);
+
         List<String> courseWorkIds = courseWorkDtoList.stream()
                 .map(c -> c.getId())
                 .collect(Collectors.toList());
@@ -49,6 +56,10 @@ public class CourseWorkServiceImpl implements CourseWorkService {
         for (CourseWorkDto courseWorkDto : courseWorkDtoList) {
             if (isNull(courseWorkModelList.stream()
                     .filter(c -> c.getId().equals(courseWorkDto.getId())).findFirst().orElse(null))) {
+
+                Matcher matcher = pattern.matcher(courseWorkDto.getDescription());
+                courseWorkDto.setDescription(matcher.replaceAll(""));
+
                 courseWorkRepository.save(courseWorkMapper.toModel(courseWorkDto));
                 log.info("Course Work saved. id:" + courseWorkDto.getId());
 
