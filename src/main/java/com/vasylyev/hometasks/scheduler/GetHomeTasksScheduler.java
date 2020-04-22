@@ -14,7 +14,6 @@ import java.security.GeneralSecurityException;
 
 @Slf4j
 @Component
-//@AllArgsConstructor
 @RequiredArgsConstructor
 public class GetHomeTasksScheduler {
 
@@ -34,5 +33,4 @@ public class GetHomeTasksScheduler {
             log.info("Get hometask job ended");
         }
     }
-    //TODO: add new row at GoogleDoc for new hometask
 }

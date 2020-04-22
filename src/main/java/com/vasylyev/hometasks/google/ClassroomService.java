@@ -93,6 +93,4 @@ public class ClassroomService {
                 .setApplicationName(appName)
                 .build();
     }
-
-    //TODO: move authorization to UI
 }
