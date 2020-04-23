@@ -9,7 +9,6 @@ import com.vasylyev.hometasks.model.telegram.TelegramChat;
 import com.vasylyev.hometasks.service.SubscriberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -28,18 +27,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TelegramNotifier {
 
-    @Value("${telegram.bot.name}")
-    private String channelName;
-
-    @Value("${telegram.bot.token}")
-    private String apiToken;
-
     private final SubscriberService subscriberService;
     private final ObjectMapper objectMapper;
     private final TelegramBot telegramBot;
 
     public void sendToTelegram(String message) {
-
         List<SubscriberDto> subscriberList = subscriberService.findAllActive();
         for (SubscriberDto subscriber : subscriberList) {
             SendMessage sm = new SendMessage();
@@ -83,7 +75,7 @@ public class TelegramNotifier {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(builder.build("bot" + apiToken))
+                .uri(builder.build("bot" + telegramBot.getBotToken()))
                 .timeout(Duration.ofSeconds(5))
                 .build();
         try {
@@ -112,20 +104,20 @@ public class TelegramNotifier {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(builder.build("bot" + apiToken))
+                .uri(builder.build("bot" + telegramBot.getBotToken()))
                 .timeout(Duration.ofSeconds(5))
                 .build();
 
         try {
             HttpResponse<String> response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
-            log.info("Telegram message sent. chatId:" + subscriber.getChatId() + " apiToken:" + apiToken);
+            log.info("Telegram message sent. chatId:" + subscriber.getChatId() + " apiToken:" + telegramBot.getBotToken());
         } catch (IOException e) {
             log.error(e.getMessage());
-            log.error("Error. Telegram message not sent. chatId:" + subscriber.getChatId() + " apiToken:" + apiToken);
+            log.error("Error. Telegram message not sent. chatId:" + subscriber.getChatId() + " apiToken:" + telegramBot.getBotToken());
         } catch (InterruptedException e) {
             log.error(e.getMessage());
-            log.error("Error. Telegram message not sent. chatId:" + subscriber.getChatId() + " apiToken:" + apiToken);
+            log.error("Error. Telegram message not sent. chatId:" + subscriber.getChatId() + " apiToken:" + telegramBot.getBotToken());
         }
     }
 }

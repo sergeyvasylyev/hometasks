@@ -5,7 +5,6 @@ import com.vasylyev.hometasks.service.CourseService;
 import com.vasylyev.hometasks.service.SubscriberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -16,12 +15,6 @@ import static java.util.Objects.isNull;
 
 @Slf4j
 public class TelegramBot extends TelegramLongPollingBot {
-
-    @Value("${telegram.bot.name}")
-    private String channelName;
-
-    @Value("${telegram.bot.token}")
-    private String apiToken;
 
     @Autowired
     private SubscriberService subscriberService;
@@ -50,7 +43,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                     break;
                 case "классы":
                     sendMessage(updateMessage.getChatId().toString()
-                            ,courseService.findAllNames().toString());
+                            , courseService.findAllNames().toString());
                     break;
                 default:
                     break;
@@ -60,13 +53,12 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return channelName;
+        return "";
     }
 
     @Override
     public String getBotToken() {
-        //return apiToken;
-        return "1219592883:AAFqcOfnJ2W9ZUpDB_89fqepySra0YvAnwI";
+        return "";
     }
 
     private void createSubscriberIfNotExist(Message updateMessage) {

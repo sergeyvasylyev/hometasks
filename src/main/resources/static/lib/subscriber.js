@@ -23,6 +23,7 @@ function updateSubscriber(){
             }
         })
 }
+
 function getSubscriber(){
     var var1 = document.getElementById("id").value;
     $.ajax({
