@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/lib/account.js}"></script>
+    <meta charset="UTF-8">
+    <title>Google Hometask</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <h1>Google Hometask. Accounts</h1>
+    <br>
+    <div class="form-group">
+        <label for="account-name">Account name</label>
+        <input class="form-control" id="account-name" placeholder="Account name" value="#{account-name}"></th>
+    </div>
+    <button type="submit" class="btn btn-primary" th:onclick="saveSettings()">Save</button>
+</div>
+</body>
+</html>

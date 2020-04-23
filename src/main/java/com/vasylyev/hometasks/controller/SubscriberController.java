@@ -47,8 +47,7 @@ public class SubscriberController {
     }
 
     @RequestMapping(value = "/{subscriberId}", method = RequestMethod.PUT)
-    public SubscriberDto updateSubscriber(@PathVariable String subscriberId
-            , @ModelAttribute("subscriberDto") SubscriberDto subscriberDto) {
+    public SubscriberDto updateSubscriber(@PathVariable String subscriberId, @ModelAttribute("subscriberDto") SubscriberDto subscriberDto) {
         return subscriberService.save(subscriberDto);
     }
 

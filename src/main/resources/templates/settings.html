@@ -11,6 +11,132 @@
 <body>
 <div layout:fragment="content" th:remove="tag">
     <h1>Google Hometask. Settings</h1>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="account-name">Account name</label>
+            <input class="form-control" id="account-name" placeholder="Account name"></th>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="is-default">
+            <label class="form-check-label" for="is-default">is default</label>
+        </div>
+    </form>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="GOOGLE_APP_NAME">Application name</label>
+            <input class="form-control" id="GOOGLE_APP_NAME" placeholder="Application name"></th>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col"><h5>Google classroom</h5></th>
+                <th scope="col"></th>
+                <th scope="col"><h5>Google sheets</h5></th>
+                <th scope="col"></th>
+                <th scope="col"><h5>Telegram bot</h5></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>GC credentials</td>
+                <td>
+                    <input class="form-control" id="GOOGLE_CLASSROOM_TOKEN_CREDENTIALS" placeholder="GC credentials"></td>
+                <td>GS credentials</td>
+                <td>
+                    <input class="form-control" id="GOOGLE_SHEETS_TOKEN_CREDENTIALS" placeholder="GS credentials">
+                </td>
+                <td>Bot name</td>
+                <td><input name="bot-name" class="form-control" id="TELEGRAM_BOT_NAME" placeholder="Name"></td>
+            </tr>
+            <tr>
+                <td>GC token</td>
+                <td>
+                    <input class="form-control" id="GOOGLE_CLASSROOM_TOKEN_DIR" placeholder="GC token">
+                </td>
+                <td>GS token</td>
+                <td>
+                    <input class="form-control" id="GOOGLE_SHEETS_TOKEN_DIR" placeholder="GS token">
+                </td>
+                <td>Bot username</td>
+                <td>
+                    <input name="bot-user-name" class="form-control" id="TELEGRAM_BOT_USERNAME" placeholder="Username">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>GS spreadsheet ID</td>
+                <td>
+                    <input class="form-control" id="GOOGLE_SHEETS_SPREADSHEET_ID" placeholder="Spreadsheet ID">
+                </td>
+                <td>Bot token</td>
+                <td><input name="bot-token" class="form-control" id="TELEGRAM_BOT_TOKEN" placeholder="Token"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--    <h5>Google classroom</h5>-->
+    <!--    <form class="form-inline">-->
+    <!--        <div class="form-group">-->
+    <!--            <label for="app-name">GC credentials</label>-->
+    <!--            <input class="form-control" id="gc-credentials" placeholder="GC credentials"></td>-->
+    <!--        </div>-->
+    <!--    </form>-->
+    <!--    <form class="form-inline">-->
+    <!--        <div class="form-group">-->
+    <!--            <label for="app-name">GC token</label>-->
+    <!--            <input class="form-control" id="gc-token" placeholder="GC token">-->
+    <!--        </div>-->
+    <!--    </form>-->
+    <!--    <h5>Google sheets</h5>-->
+    <!--    <form class="form-inline">-->
+    <!--        <div class="form-group">-->
+    <!--            <label for="app-name">GS credentials</label>-->
+    <!--            <input class="form-control" id="gs-credentials" placeholder="GS credentials">-->
+    <!--        </div>-->
+    <!--    </form>-->
+    <!--    <form class="form-inline">-->
+    <!--        <div class="form-group">-->
+    <!--            <label for="app-name">GS token</label>-->
+    <!--            <input class="form-control" id="gs-token" placeholder="GS token">-->
+    <!--        </div>-->
+    <!--    </form>-->
+    <!--    <form class="form-inline">-->
+    <!--        <div class="form-group">-->
+    <!--            <label for="app-name">Spreadsheet ID"</label>-->
+    <!--            <input class="form-control" id="spreadsheet-id" placeholder="Spreadsheet ID">-->
+    <!--        </div>-->
+    <!--    </form>-->
+    <!--    <h5>Telegram bot</h5>-->
+    <!--    <form class="form-inline">-->
+    <!--        <div class="form-group">-->
+    <!--            <label for="app-name">Name</label>-->
+    <!--            <input name="bot-name" class="form-control" id="bot-name" placeholder="Name">-->
+    <!--        </div>-->
+    <!--    </form>-->
+    <!--    <form class="form-inline">-->
+    <!--        <div class="form-group">-->
+    <!--            <label for="app-name">Username</label>-->
+    <!--            <input name="bot-user-name" class="form-control" id="bot-user-name" placeholder="Username">-->
+    <!--        </div>-->
+    <!--    </form>-->
+    <!--    <form class="form-inline">-->
+    <!--        <div class="form-group">-->
+    <!--            <label for="app-name">Token</label>-->
+    <!--            <input name="bot-token" class="form-control" id="bot-token" placeholder="Token">-->
+    <!--        </div>-->
+    <!--    </form>-->
+
+    <button type="submit" class="btn btn-primary" th:onclick="saveSettings()">Save</button>
+
+    <hr/>
     <button type="submit" class="btn btn-primary" th:onclick="forceJob()">Force GET hometask job</button>
 </div>
 </body>

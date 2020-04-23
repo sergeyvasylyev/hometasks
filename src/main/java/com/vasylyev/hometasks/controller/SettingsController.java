@@ -1,8 +1,12 @@
 package com.vasylyev.hometasks.controller;
 
+import com.vasylyev.hometasks.dto.AccountDto;
 import com.vasylyev.hometasks.scheduler.GetHomeTasksScheduler;
+import com.vasylyev.hometasks.service.AccountService;
+import com.vasylyev.hometasks.service.AppSettingsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,13 +21,26 @@ import java.security.GeneralSecurityException;
 @RequestMapping(value = "/settings")
 public class SettingsController {
 
+    private final AppSettingsService appSettingsService;
+    private final AccountService accountService;
     private final GetHomeTasksScheduler homeTasksScheduler;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getSettings() {
         ModelAndView modelSettings = new ModelAndView();
+        modelSettings.addObject("appSettings", appSettingsService.findAll());
         modelSettings.setViewName("settings");
         return modelSettings;
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public void updateSettings(@RequestBody AccountDto accountDto) {
+        accountService.addAccount(accountDto);
+    }
+
+    @RequestMapping(value = "/getDefault", method = RequestMethod.GET)
+    public AccountDto getDefaultAccount() {
+        return accountService.getDefaultAccount();
     }
 
     @RequestMapping(value = "/force", method = RequestMethod.GET)

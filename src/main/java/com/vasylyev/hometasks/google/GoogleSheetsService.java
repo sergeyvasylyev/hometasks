@@ -10,10 +10,11 @@ import com.google.api.services.sheets.v4.model.AppendValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import com.google.common.collect.ImmutableList;
 import com.vasylyev.hometasks.dto.CourseWorkDto;
+import com.vasylyev.hometasks.model.enums.SettingType;
+import com.vasylyev.hometasks.service.AppSettingsService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -25,23 +26,10 @@ import static java.util.Objects.nonNull;
 
 @Slf4j
 @Component
-@RequestMapping
+@RequiredArgsConstructor
 public class GoogleSheetsService {
 
-    @Value("${google.app.name}")
-    private String appName;
-
-    @Value("${google.sheets.token.dir}")
-    private String tokenDir;
-
-    @Value("${google.sheets.token.credentials}")
-    private String credentialsFileName;
-
-    @Value("${google.sheets.spreadsheet.id}")
-    private String spreadsheetId;
-
-    @Value("${google.sheets.spreadsheet.range}")
-    private String spreadsheetRange;
+    private final AppSettingsService appSettingsService;
 
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     /**
@@ -55,8 +43,12 @@ public class GoogleSheetsService {
     public void appendRow(CourseWorkDto courseWorkDto) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, GoogleApiUtil.getCredentials(HTTP_TRANSPORT, tokenDir, credentialsFileName, SCOPES, "ClassroomService"))
-                .setApplicationName(appName)
+        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, GoogleApiUtil.getCredentials(HTTP_TRANSPORT
+                , appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_TOKEN_DIR)
+                , appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_TOKEN_CREDENTIALS)
+                , SCOPES
+                , "ClassroomService"))
+                .setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
                 .build();
 
         DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("dd.MM");
@@ -73,7 +65,7 @@ public class GoogleSheetsService {
                                 , courseWorkDto.getAlternateLink()
                         )));
         AppendValuesResponse appendResult = service.spreadsheets().values()
-                .append(spreadsheetId, "A1", appendBody)
+                .append(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_SPREADSHEET_ID), "A1", appendBody)
                 .setValueInputOption("USER_ENTERED")
                 .setInsertDataOption("INSERT_ROWS")
                 .setIncludeValuesInResponse(true)

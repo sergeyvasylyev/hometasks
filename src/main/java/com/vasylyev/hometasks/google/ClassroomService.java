@@ -15,10 +15,11 @@ import com.vasylyev.hometasks.dto.CourseWorkDto;
 import com.vasylyev.hometasks.exception.ElementNotFoundException;
 import com.vasylyev.hometasks.mapper.CourseMapper;
 import com.vasylyev.hometasks.mapper.CourseWorkMapper;
+import com.vasylyev.hometasks.model.enums.SettingType;
+import com.vasylyev.hometasks.service.AppSettingsService;
 import com.vasylyev.hometasks.service.CourseWorkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -37,15 +38,7 @@ public class ClassroomService {
     private final CourseMapper courseMapper;
     private final CourseWorkMapper courseWorkMapper;
     private final CourseWorkService courseWorkService;
-
-    @Value("${google.app.name}")
-    private String appName;
-
-    @Value("${google.classroom.token.dir}")
-    private String tokenDir;
-
-    @Value("${google.classroom.token.credentials}")
-    private String credentialsFileName;
+    private final AppSettingsService appSettingsService;
 
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     /**
@@ -89,8 +82,12 @@ public class ClassroomService {
 
     private Classroom getClassroom() throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        return new Classroom.Builder(HTTP_TRANSPORT, JSON_FACTORY, GoogleApiUtil.getCredentials(HTTP_TRANSPORT, tokenDir, credentialsFileName, SCOPES, "ClassroomService"))
-                .setApplicationName(appName)
+        return new Classroom.Builder(HTTP_TRANSPORT, JSON_FACTORY, GoogleApiUtil.getCredentials(HTTP_TRANSPORT
+                , appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_CLASSROOM_TOKEN_DIR)
+                , appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_CLASSROOM_TOKEN_CREDENTIALS)
+                , SCOPES
+                , "ClassroomService"))
+                .setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
                 .build();
     }
 }

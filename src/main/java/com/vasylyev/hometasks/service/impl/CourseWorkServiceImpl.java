@@ -57,18 +57,20 @@ public class CourseWorkServiceImpl implements CourseWorkService {
             if (isNull(courseWorkModelList.stream()
                     .filter(c -> c.getId().equals(courseWorkDto.getId())).findFirst().orElse(null))) {
 
-                Matcher matcher = pattern.matcher(courseWorkDto.getDescription());
-                courseWorkDto.setDescription(matcher.replaceAll(""));
+                if (nonNull(courseWorkDto.getDescription())) {
+                    Matcher matcher = pattern.matcher(courseWorkDto.getDescription());
+                    courseWorkDto.setDescription(matcher.replaceAll(""));
+                }
 
                 courseWorkRepository.save(courseWorkMapper.toModel(courseWorkDto));
                 log.info("Course Work saved. id:" + courseWorkDto.getId());
 
                 //send to telegram
                 telegramNotifier.sendToTelegram("New Hometask: "
-                        + "\n" + courseWorkDto.getCourse().getName()
-                        + "\n" + courseWorkDto.getTitle()
-                        + "\n" + courseWorkDto.getAlternateLink()
-                        + (nonNull(courseWorkDto.getDueDate()) ? "\n" + courseWorkDto.getDueDate().toString() : "")
+                        + "\nCourse: " + courseWorkDto.getCourse().getName()
+                        + "\nTitle: " + courseWorkDto.getTitle()
+                        + "\nLink: " + courseWorkDto.getAlternateLink()
+                        + (nonNull(courseWorkDto.getDueDate()) ? "\nDue date: " + courseWorkDto.getDueDate().toString() : "")
                 );
 
                 //update google sheets
