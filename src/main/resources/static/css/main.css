@@ -5,6 +5,10 @@ h5 {
     color: #78ab46;
 }
 
+.table tbody tr td {
+    border: none;
+}
+
 footer {
     position: fixed;
     height: 50px;

@@ -12,22 +12,29 @@
 <div layout:fragment="content" th:remove="tag">
     <h1>Google Hometask. Settings</h1>
 
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="account-name">Account name</label>
-            <input class="form-control" id="account-name" placeholder="Account name"></th>
+    <form>
+        <div class="form-group row">
+            <form class="form-inline">
+                <label for="account-name" class="col-sm-2 col-form-label">Account name</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control" id="account-name">
+                </div>
+                <div class="form-check mb-2 mr-sm-2">
+                    <input class="form-check-input" type="checkbox" id="is-default">
+                    <label class="form-check-label" for="is-default">Is default</label>
+                </div>
+            </form>
         </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="is-default">
-            <label class="form-check-label" for="is-default">is default</label>
+        <div class="form-group row">
+            <label for="GOOGLE_APP_NAME" class="col-sm-2 col-form-label">Application name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="GOOGLE_APP_NAME" placeholder="Application name">
+            </div>
         </div>
-    </form>
-
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="GOOGLE_APP_NAME">Application name</label>
-            <input class="form-control" id="GOOGLE_APP_NAME" placeholder="Application name"></th>
-        </div>
+        <!--        <div class="form-check">-->
+        <!--            <input type="checkbox" class="form-check-input" id="is-default">-->
+        <!--            <label class="form-check-label" for="is-default">is default</label>-->
+        <!--        </div>-->
     </form>
 
     <div class="table-responsive">
@@ -46,7 +53,8 @@
             <tr>
                 <td>GC credentials</td>
                 <td>
-                    <input class="form-control" id="GOOGLE_CLASSROOM_TOKEN_CREDENTIALS" placeholder="GC credentials"></td>
+                    <input class="form-control" id="GOOGLE_CLASSROOM_TOKEN_CREDENTIALS" placeholder="GC credentials">
+                </td>
                 <td>GS credentials</td>
                 <td>
                     <input class="form-control" id="GOOGLE_SHEETS_TOKEN_CREDENTIALS" placeholder="GS credentials">
@@ -81,58 +89,6 @@
             </tbody>
         </table>
     </div>
-
-    <!--    <h5>Google classroom</h5>-->
-    <!--    <form class="form-inline">-->
-    <!--        <div class="form-group">-->
-    <!--            <label for="app-name">GC credentials</label>-->
-    <!--            <input class="form-control" id="gc-credentials" placeholder="GC credentials"></td>-->
-    <!--        </div>-->
-    <!--    </form>-->
-    <!--    <form class="form-inline">-->
-    <!--        <div class="form-group">-->
-    <!--            <label for="app-name">GC token</label>-->
-    <!--            <input class="form-control" id="gc-token" placeholder="GC token">-->
-    <!--        </div>-->
-    <!--    </form>-->
-    <!--    <h5>Google sheets</h5>-->
-    <!--    <form class="form-inline">-->
-    <!--        <div class="form-group">-->
-    <!--            <label for="app-name">GS credentials</label>-->
-    <!--            <input class="form-control" id="gs-credentials" placeholder="GS credentials">-->
-    <!--        </div>-->
-    <!--    </form>-->
-    <!--    <form class="form-inline">-->
-    <!--        <div class="form-group">-->
-    <!--            <label for="app-name">GS token</label>-->
-    <!--            <input class="form-control" id="gs-token" placeholder="GS token">-->
-    <!--        </div>-->
-    <!--    </form>-->
-    <!--    <form class="form-inline">-->
-    <!--        <div class="form-group">-->
-    <!--            <label for="app-name">Spreadsheet ID"</label>-->
-    <!--            <input class="form-control" id="spreadsheet-id" placeholder="Spreadsheet ID">-->
-    <!--        </div>-->
-    <!--    </form>-->
-    <!--    <h5>Telegram bot</h5>-->
-    <!--    <form class="form-inline">-->
-    <!--        <div class="form-group">-->
-    <!--            <label for="app-name">Name</label>-->
-    <!--            <input name="bot-name" class="form-control" id="bot-name" placeholder="Name">-->
-    <!--        </div>-->
-    <!--    </form>-->
-    <!--    <form class="form-inline">-->
-    <!--        <div class="form-group">-->
-    <!--            <label for="app-name">Username</label>-->
-    <!--            <input name="bot-user-name" class="form-control" id="bot-user-name" placeholder="Username">-->
-    <!--        </div>-->
-    <!--    </form>-->
-    <!--    <form class="form-inline">-->
-    <!--        <div class="form-group">-->
-    <!--            <label for="app-name">Token</label>-->
-    <!--            <input name="bot-token" class="form-control" id="bot-token" placeholder="Token">-->
-    <!--        </div>-->
-    <!--    </form>-->
 
     <button type="submit" class="btn btn-primary" th:onclick="saveSettings()">Save</button>
 

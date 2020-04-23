@@ -16,13 +16,13 @@ public class HometasksApplication {
      *
      * UI:
      * - UI to angular
-     * - settings to UI
-     * 		- (telegram)
-     * 		- google
+     * + settings to UI
+     * 		+ (telegram)
+     * 		+ google
      * DB:
-     * - settings to DB
-     * 		- enum with setting name
-     * 		- all data to db not to app properties
+     * + settings to DB
+     * 		+ enum with setting name
+     * 		+ all data to db not to app properties
      * Auth:
      * - move auth to UI
      * Common:
@@ -34,7 +34,10 @@ public class HometasksApplication {
      * - google sheet - optional
      * - telegram bot optional
      * - scheduler - run only if proper settings are filled in
-     * - add checkstyle
+     * + add checkstyle
+     * AWS
+     *  - move to AWS
+     *  - refactor to AWS
      *
      * */
 
