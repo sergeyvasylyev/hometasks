@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface CourseService {
 
-    public CourseDto addCourse(CourseDto courseDto);
+    CourseDto addCourse(CourseDto courseDto);
 
-    public void addCourses(List<CourseDto> courseDtoList);
+    void addCourses(List<CourseDto> courseDtoList);
 
-    public CourseDto findById(String id);
+    CourseDto findById(String id);
 
-    public List<CourseDto> findAll();
+    List<CourseDto> findAll();
 
-    public List<String> findAllNames();
+    List<String> findAllNames();
 
-    public List<CourseDto> findByIds(Iterable<String> idList);
+    List<CourseDto> findByIds(Iterable<String> idList);
 }

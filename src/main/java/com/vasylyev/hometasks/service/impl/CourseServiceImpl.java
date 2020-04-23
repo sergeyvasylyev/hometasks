@@ -38,12 +38,12 @@ public class CourseServiceImpl implements CourseService {
                 .collect(Collectors.toList());
         List<CourseModel> courseModelList = courseRepository.findAllById(courseIds);
         for (CourseDto courseDto : courseDtoList) {
-            if (isNull(courseModelList.stream().filter(c -> c.getId().equals(courseDto.getId())).findFirst().orElse(null))){
+            if (isNull(courseModelList.stream().filter(c -> c.getId().equals(courseDto.getId())).findFirst().orElse(null))) {
                 courseRepository.save(courseMapper.toModel(courseDto));
                 log.info("Course saved. id:" + courseDto.getId());
-            } else {
+            } //else {
                 //log.info("Course already exist. id:" + courseDto.getId());
-            }
+            //}
         }
     }
 

@@ -23,12 +23,12 @@ public class GoogleApiUtil {
     /**
      * Creates an authorized Credential object.
      *
-     * @param HTTP_TRANSPORT The network HTTP Transport.
+     * @param httpTransport The network HTTP Transport.
      * @return An authorized Credential object.
      * @throws IOException If the credentials_gc.json file cannot be found.
      */
-    public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT
-            , String tokenDir, String credentialsFileName, List<String> Scopes, String apiType) throws IOException {
+    public static Credential getCredentials(final NetHttpTransport httpTransport,
+            String tokenDir, String credentialsFileName, List<String> scopes, String apiType) throws IOException {
 
         // Load client secrets.
         InputStream in = null;
@@ -44,7 +44,7 @@ public class GoogleApiUtil {
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, Scopes)
+                httpTransport, JSON_FACTORY, clientSecrets, scopes)
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(tokenDir)))
                 .setAccessType("offline")
                 .build();

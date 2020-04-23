@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @RequiredArgsConstructor
 public class Subscriber {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String description;

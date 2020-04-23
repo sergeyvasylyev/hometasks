@@ -14,18 +14,18 @@ public interface AppSettingsRepository extends JpaRepository<AppSettings, Long> 
 
     Optional<AppSettings> findBySettingType(SettingType settingType);
 
-    @Query("SELECT app FROM AppSettings app " +
-            "JOIN FETCH app.account acc " +
-            "WHERE acc.name = ?1 AND app.settingType = ?2")
+    @Query("SELECT app FROM AppSettings app "
+            + "JOIN FETCH app.account acc "
+            + "WHERE acc.name = ?1 AND app.settingType = ?2")
     Optional<AppSettings> findByAccountIdSettingType(String accountName, SettingType settingType);
 
-    @Query("SELECT app FROM AppSettings app " +
-            "JOIN FETCH app.account acc " +
-            "WHERE acc.isDefault = TRUE AND app.settingType = ?1")
+    @Query("SELECT app FROM AppSettings app "
+            + "JOIN FETCH app.account acc "
+            + "WHERE acc.isDefault = TRUE AND app.settingType = ?1")
     Optional<AppSettings> findBySettingTypeDefaultAccount(SettingType settingType);
 
-    @Query("SELECT app FROM AppSettings app " +
-            "JOIN FETCH app.account acc " +
-            "WHERE acc.name = ?1")
+    @Query("SELECT app FROM AppSettings app "
+            + "JOIN FETCH app.account acc "
+            + "WHERE acc.name = ?1")
     List<AppSettings> findByAccountId(String accountName);
 }

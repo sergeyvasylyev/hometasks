@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -34,8 +33,8 @@ public class CourseWorkModel {
     @Column(name = "description", length = 1000, columnDefinition = "VARCHAR(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL")
     private String description;
     private LocalDateTime dueDate;
-            //"dueDate": { "day": 30, "month": 4, "year": 2020    },
-            //"dueTime": {"hours": 20, "minutes": 59},
+    //"dueDate": { "day": 30, "month": 4, "year": 2020    },
+    //"dueTime": {"hours": 20, "minutes": 59},
     private double maxPoints;
     private String state;
     @Column(name = "title", length = 100, columnDefinition = "VARCHAR(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL")

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SubscriberMapper {
 
-    public Subscriber toModel(SubscriberDto subscriberDto){
+    public Subscriber toModel(SubscriberDto subscriberDto) {
         return Subscriber.builder()
                 .active(subscriberDto.getActive())
                 .name(subscriberDto.getName())
@@ -17,7 +17,7 @@ public class SubscriberMapper {
                 .build();
     }
 
-    public SubscriberDto toDto(Subscriber subscriber){
+    public SubscriberDto toDto(Subscriber subscriber) {
         return SubscriberDto.builder()
                 .active(subscriber.getActive())
                 .name(subscriber.getName())

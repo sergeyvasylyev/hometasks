@@ -37,32 +37,33 @@ public class GoogleSheetsService {
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
     private static final List<String> SCOPES = ImmutableList.of(
-            SheetsScopes.SPREADSHEETS_READONLY
-            , SheetsScopes.SPREADSHEETS);
+            SheetsScopes.SPREADSHEETS_READONLY,
+            SheetsScopes.SPREADSHEETS);
 
     public void appendRow(CourseWorkDto courseWorkDto) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, GoogleApiUtil.getCredentials(HTTP_TRANSPORT
-                , appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_TOKEN_DIR)
-                , appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_TOKEN_CREDENTIALS)
-                , SCOPES
-                , "ClassroomService"))
+        final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        Sheets service = new Sheets.Builder(httpTransport, JSON_FACTORY, GoogleApiUtil.getCredentials(
+                httpTransport,
+                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_TOKEN_DIR),
+                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_TOKEN_CREDENTIALS),
+                SCOPES,
+                "ClassroomService"))
                 .setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
                 .build();
 
-        DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("dd.MM");
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM");
 
         ValueRange appendBody = new ValueRange()
                 .setValues(Arrays.asList(
                         Arrays.asList(
-                                courseWorkDto.getCreationTime().format(DateFormat)
-                                , nonNull(courseWorkDto.getDueDate()) ? courseWorkDto.getDueDate().format(DateFormat) : ""
-                                , ""
-                                , courseWorkDto.getCourse().getName()
-                                , "Школа"
-                                , courseWorkDto.getTitle()
-                                , courseWorkDto.getAlternateLink()
+                                courseWorkDto.getCreationTime().format(dateFormat),
+                                nonNull(courseWorkDto.getDueDate()) ? courseWorkDto.getDueDate().format(dateFormat) : "",
+                                "",
+                                courseWorkDto.getCourse().getName(),
+                                "Школа",
+                                courseWorkDto.getTitle(),
+                                courseWorkDto.getAlternateLink()
                         )));
         AppendValuesResponse appendResult = service.spreadsheets().values()
                 .append(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_SPREADSHEET_ID), "A1", appendBody)

@@ -46,9 +46,9 @@ public class ClassroomService {
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
     private static final List<String> SCOPES = ImmutableList.of(
-            ClassroomScopes.CLASSROOM_COURSES_READONLY
-            , ClassroomScopes.CLASSROOM_COURSEWORK_ME_READONLY
-            , "https://www.googleapis.com/auth/classroom.topics.readonly"
+            ClassroomScopes.CLASSROOM_COURSES_READONLY,
+            ClassroomScopes.CLASSROOM_COURSEWORK_ME_READONLY,
+            "https://www.googleapis.com/auth/classroom.topics.readonly"
     );
 
     public List<CourseDto> getCourses() throws IOException, GeneralSecurityException {
@@ -81,12 +81,13 @@ public class ClassroomService {
     }
 
     private Classroom getClassroom() throws GeneralSecurityException, IOException {
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        return new Classroom.Builder(HTTP_TRANSPORT, JSON_FACTORY, GoogleApiUtil.getCredentials(HTTP_TRANSPORT
-                , appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_CLASSROOM_TOKEN_DIR)
-                , appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_CLASSROOM_TOKEN_CREDENTIALS)
-                , SCOPES
-                , "ClassroomService"))
+        final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        return new Classroom.Builder(httpTransport, JSON_FACTORY, GoogleApiUtil.getCredentials(
+                httpTransport,
+                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_CLASSROOM_TOKEN_DIR),
+                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_CLASSROOM_TOKEN_CREDENTIALS),
+                SCOPES,
+                "ClassroomService"))
                 .setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
                 .build();
     }

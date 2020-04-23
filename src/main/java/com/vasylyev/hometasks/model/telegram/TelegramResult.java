@@ -1,5 +1,6 @@
 package com.vasylyev.hometasks.model.telegram;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class TelegramResult {
-    private String update_id;
+    @JsonProperty("update_id")
+    private String updateId;
     private TelegramMessage message;
 }

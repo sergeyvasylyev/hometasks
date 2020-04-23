@@ -35,7 +35,7 @@ public class CourseWorkServiceImpl implements CourseWorkService {
     private final TelegramNotifier telegramNotifier;
     private final GoogleSheetsService googleSheetsService;
 
-    private final String REGEX = "[^\\p{L}\\p{N}\\p{P}\\p{Z}]";
+    private final String regex = "[^\\p{L}\\p{N}\\p{P}\\p{Z}]";
 
     @Override
     public CourseWorkDto addCourseWork(CourseWorkDto courseWorkDto) {
@@ -47,7 +47,7 @@ public class CourseWorkServiceImpl implements CourseWorkService {
     @Override
     public void addCourseWorks(List<CourseWorkDto> courseWorkDtoList) {
 
-        Pattern pattern = Pattern.compile(REGEX, Pattern.UNICODE_CHARACTER_CLASS);
+        Pattern pattern = Pattern.compile(regex, Pattern.UNICODE_CHARACTER_CLASS);
 
         List<String> courseWorkIds = courseWorkDtoList.stream()
                 .map(c -> c.getId())
@@ -82,9 +82,9 @@ public class CourseWorkServiceImpl implements CourseWorkService {
                     log.error("Error updating google sheet: " + e.getMessage());
                 }
 
-            } else {
+            } //else {
                 //log.info("Course Work already exist. id:" + courseWorkDto.getId());
-            }
+            //}
         }
     }
 

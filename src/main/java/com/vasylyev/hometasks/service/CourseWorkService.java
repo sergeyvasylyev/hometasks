@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface CourseWorkService {
 
-    public CourseWorkDto addCourseWork(CourseWorkDto courseWorkDto);
+    CourseWorkDto addCourseWork(CourseWorkDto courseWorkDto);
 
-    public void addCourseWorks(List<CourseWorkDto> courseWorkDtoList);
+    void addCourseWorks(List<CourseWorkDto> courseWorkDtoList);
 
-    public CourseWorkDto findById(String id);
+    CourseWorkDto findById(String id);
 
-    public List<CourseWorkDto> findAll();
+    List<CourseWorkDto> findAll();
 
-    public List<CourseWorkDto> fillCourseById(List<CourseWorkDto> courseWorkDtoList);
+    List<CourseWorkDto> fillCourseById(List<CourseWorkDto> courseWorkDtoList);
 }

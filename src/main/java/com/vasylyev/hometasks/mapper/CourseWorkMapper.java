@@ -62,11 +62,12 @@ public class CourseWorkMapper {
         int hours = nonNull(courseWork.getDueTime()) ? nonNull(courseWork.getDueTime().getHours()) ? courseWork.getDueTime().getHours() : 0 : 0;
         int minutes = nonNull(courseWork.getDueTime()) ? nonNull(courseWork.getDueTime().getMinutes()) ? courseWork.getDueTime().getMinutes() : 0 : 0;
         if (nonNull(courseWork.getDueDate())) {
-            dueDate = LocalDateTime.of(courseWork.getDueDate().getYear()
-                    , courseWork.getDueDate().getMonth()
-                    , courseWork.getDueDate().getDay()
-                    , hours
-                    , minutes);
+            dueDate = LocalDateTime.of(
+                    courseWork.getDueDate().getYear(),
+                    courseWork.getDueDate().getMonth(),
+                    courseWork.getDueDate().getDay(),
+                    hours,
+                    minutes);
         }
         double maxPoints = nonNull(courseWork.getMaxPoints()) ? courseWork.getMaxPoints() : 0;
 

@@ -34,16 +34,16 @@ public class TelegramBot extends TelegramLongPollingBot {
                     sendMessage(updateMessage.getChatId().toString(), "Привет, Егор Дио!");
                     break;
                 case "подписчики":
-                    sendMessage(updateMessage.getChatId().toString()
-                            , subscriberService.findAll().toString());
+                    sendMessage(updateMessage.getChatId().toString(),
+                            subscriberService.findAll().toString());
                     break;
                 case "детали":
-                    sendMessage(updateMessage.getChatId().toString()
-                            , subscriberService.findByChatId(updateMessage.getChatId().toString()).toString());
+                    sendMessage(updateMessage.getChatId().toString(),
+                            subscriberService.findByChatId(updateMessage.getChatId().toString()).toString());
                     break;
                 case "классы":
-                    sendMessage(updateMessage.getChatId().toString()
-                            , courseService.findAllNames().toString());
+                    sendMessage(updateMessage.getChatId().toString(),
+                            courseService.findAllNames().toString());
                     break;
                 default:
                     break;

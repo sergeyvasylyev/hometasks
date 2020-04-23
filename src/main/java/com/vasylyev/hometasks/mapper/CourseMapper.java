@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class CourseMapper {
 
-    public CourseModel toModel(CourseDto courseDto){
+    public CourseModel toModel(CourseDto courseDto) {
         return CourseModel.builder()
                 .alternateLink(courseDto.getAlternateLink())
                 .courseState(courseDto.getCourseState())
@@ -23,7 +23,7 @@ public class CourseMapper {
                 .build();
     }
 
-    public CourseDto toDto(CourseModel courseModel){
+    public CourseDto toDto(CourseModel courseModel) {
         return CourseDto.builder()
                 .alternateLink(courseModel.getAlternateLink())
                 .courseState(courseModel.getCourseState())
@@ -36,7 +36,7 @@ public class CourseMapper {
                 .build();
     }
 
-    public CourseDto toDto(Course course){
+    public CourseDto toDto(Course course) {
         return CourseDto.builder()
                 .alternateLink(course.getAlternateLink())
                 .courseState(course.getCourseState())
