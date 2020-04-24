@@ -14,7 +14,11 @@
     <br>
     <div class="form-group">
         <label for="account-name">Account name</label>
-        <input class="form-control" id="account-name" placeholder="Account name" value="#{account-name}"></th>
+        <input class="form-control" id="account-name" placeholder="Account name"></th>
+        <div class="form-check mb-2 mr-sm-2">
+            <input class="form-check-input" type="checkbox" id="is-default">
+            <label class="form-check-label" for="is-default">Is default</label>
+        </div>
     </div>
     <button type="submit" class="btn btn-primary" th:onclick="saveSettings()">Save</button>
 </div>
