@@ -31,10 +31,12 @@
                 <input type="text" class="form-control" id="GOOGLE_APP_NAME" placeholder="Application name">
             </div>
         </div>
-        <!--        <div class="form-check">-->
-        <!--            <input type="checkbox" class="form-check-input" id="is-default">-->
-        <!--            <label class="form-check-label" for="is-default">is default</label>-->
-        <!--        </div>-->
+        <div class="form-group row">
+            <label for="GOOGLE_APP_CREDENTIALS" class="col-sm-2 col-form-label">Credentials file name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="GOOGLE_APP_CREDENTIALS" placeholder="Credentials file name">
+            </div>
+        </div>
     </form>
 
     <div class="table-responsive">
@@ -51,18 +53,6 @@
             </thead>
             <tbody>
             <tr>
-                <td>GC credentials</td>
-                <td>
-                    <input class="form-control" id="GOOGLE_CLASSROOM_TOKEN_CREDENTIALS" placeholder="GC credentials">
-                </td>
-                <td>GS credentials</td>
-                <td>
-                    <input class="form-control" id="GOOGLE_SHEETS_TOKEN_CREDENTIALS" placeholder="GS credentials">
-                </td>
-                <td>Bot name</td>
-                <td><input name="bot-name" class="form-control" id="TELEGRAM_BOT_NAME" placeholder="Name"></td>
-            </tr>
-            <tr>
                 <td>GC token</td>
                 <td>
                     <input class="form-control" id="GOOGLE_CLASSROOM_TOKEN_DIR" placeholder="GC token">
@@ -70,6 +60,18 @@
                 <td>GS token</td>
                 <td>
                     <input class="form-control" id="GOOGLE_SHEETS_TOKEN_DIR" placeholder="GS token">
+                </td>
+                <td>Bot name</td>
+                <td><input name="bot-name" class="form-control" id="TELEGRAM_BOT_NAME" placeholder="Name"></td>
+            </tr>
+            <tr>
+                <td>Job status</td>
+                <td>
+                    <input class="form-control" id="JOB_GET_COURSES_STATUS" placeholder="active">
+                </td>
+                <td>GS spreadsheet ID</td>
+                <td>
+                    <input class="form-control" id="GOOGLE_SHEETS_SPREADSHEET_ID" placeholder="Spreadsheet ID">
                 </td>
                 <td>Bot username</td>
                 <td>
@@ -79,9 +81,9 @@
             <tr>
                 <td></td>
                 <td></td>
-                <td>GS spreadsheet ID</td>
+                <td>Use status</td>
                 <td>
-                    <input class="form-control" id="GOOGLE_SHEETS_SPREADSHEET_ID" placeholder="Spreadsheet ID">
+                    <input class="form-control" id="GOOGLE_SHEETS_USE_STATUS" placeholder="active">
                 </td>
                 <td>Bot token</td>
                 <td><input name="bot-token" class="form-control" id="TELEGRAM_BOT_TOKEN" placeholder="Token"></td>

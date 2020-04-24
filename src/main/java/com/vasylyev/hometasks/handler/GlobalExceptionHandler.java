@@ -14,10 +14,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({ElementNotFoundException.class})
     public final String handleException(HttpServletRequest req, RedirectAttributes redirectAttributes, Exception ex) {
-        String errorMessage = ex.getMessage();
-        log.error(errorMessage);
-        redirectAttributes.addFlashAttribute("error", errorMessage);
-        return "redirect:" + req.getRequestURI();
+//        String errorMessage = ex.getMessage();
+//        log.error(errorMessage);
+//        redirectAttributes.addFlashAttribute("error", errorMessage);
+//        return "redirect:" + req.getRequestURI();
+        return ex.getMessage();
     }
 
 }

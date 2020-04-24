@@ -21,14 +21,15 @@ function fillPageData(item, index){
 
 function saveSettings(){
 var settingsList = ["GOOGLE_APP_NAME",
-    "GOOGLE_CLASSROOM_TOKEN_CREDENTIALS",
-    "GOOGLE_SHEETS_TOKEN_CREDENTIALS",
+    "GOOGLE_APP_CREDENTIALS",
     "GOOGLE_CLASSROOM_TOKEN_DIR",
     "GOOGLE_SHEETS_TOKEN_DIR",
     "GOOGLE_SHEETS_SPREADSHEET_ID",
     "TELEGRAM_BOT_NAME",
     "TELEGRAM_BOT_USERNAME",
-    "TELEGRAM_BOT_TOKEN"];
+    "TELEGRAM_BOT_TOKEN",
+    "JOB_GET_COURSES_STATUS",
+    "GOOGLE_SHEETS_USE_STATUS"];
 
 var appSettingToAdd = [];
     settingsList.forEach((element) => {

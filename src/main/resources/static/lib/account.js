@@ -11,6 +11,7 @@ function getAccount(){
             success:function(responsedata){
                 console.log(responsedata);
                 document.getElementById("account-name").value = responsedata.name;
+                document.getElementById("is-default").checked = responsedata.isDefault;
                //location.reload();
             }
     })
@@ -19,6 +20,7 @@ function getAccount(){
 function saveSettings(){
     var accountData = {
     name:document.getElementById("account-name").value,
+    isDefault:document.getElementById("is-default").checked
     };
        $.ajax({
             contentType: 'application/json',

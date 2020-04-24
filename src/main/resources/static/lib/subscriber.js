@@ -8,9 +8,16 @@ $(document).ready(function() {
 
 function updateSubscriber(){
     var var1 = document.getElementById("id").value;
+    var requestType = 'POST';
+    var requestUrl = '/subscriber';
+    if (var1){
+        requestType = 'PUT';
+        requestUrl += '/'+var1
+    };
+
        $.ajax({
-            type:"PUT",
-            url:'/subscriber/'+var1,
+            type:requestType,
+            url:requestUrl,
             data:{
                 id:document.getElementById("id").value,
                 name:document.getElementById("name").value,

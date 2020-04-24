@@ -1,6 +1,9 @@
 package com.vasylyev.hometasks.scheduler;
 
 import com.vasylyev.hometasks.google.ClassroomService;
+import com.vasylyev.hometasks.model.AppSettings;
+import com.vasylyev.hometasks.model.enums.SettingType;
+import com.vasylyev.hometasks.service.AppSettingsService;
 import com.vasylyev.hometasks.service.CourseService;
 import com.vasylyev.hometasks.service.CourseWorkService;
 import lombok.RequiredArgsConstructor;
@@ -17,16 +20,14 @@ import java.security.GeneralSecurityException;
 @RequiredArgsConstructor
 public class GetHomeTasksScheduler {
 
-    @Value("${hometask.get.job.enable}")
-    private String jobEnable;
-
     private final CourseService courseService;
     private final CourseWorkService courseWorkService;
     private final ClassroomService classroomService;
+    private final AppSettingsService appSettingsService;
 
     @Scheduled(fixedRateString = "${hometask.get.job.frequency}")
     public void getHometaskJob() throws IOException, GeneralSecurityException {
-        if (jobEnable.equals("true")) {
+        if (appSettingsService.getSettingDataForDefaultAccount(SettingType.JOB_GET_COURSES_STATUS).equals("active")){
             log.info("Get hometask job started");
             courseService.addCourses(classroomService.getCourses());
             courseWorkService.addCourseWorks(classroomService.getCourseWork());

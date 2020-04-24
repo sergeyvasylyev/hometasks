@@ -46,7 +46,7 @@ public class GoogleSheetsService {
         Sheets service = new Sheets.Builder(httpTransport, JSON_FACTORY, GoogleApiUtil.getCredentials(
                 httpTransport,
                 appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_TOKEN_DIR),
-                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_TOKEN_CREDENTIALS),
+                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS),
                 SCOPES,
                 "ClassroomService"))
                 .setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))

@@ -3,6 +3,7 @@ package com.vasylyev.hometasks.service.impl;
 import com.vasylyev.hometasks.dto.AppSettingsDto;
 import com.vasylyev.hometasks.exception.ElementNotFoundException;
 import com.vasylyev.hometasks.mapper.AppSettingsMapper;
+import com.vasylyev.hometasks.model.AppSettings;
 import com.vasylyev.hometasks.model.enums.SettingType;
 import com.vasylyev.hometasks.repository.AppSettingsRepository;
 import com.vasylyev.hometasks.service.AppSettingsService;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -49,8 +51,10 @@ public class AppSettingsServiceImpl implements AppSettingsService {
 
     @Override
     public String getSettingDataForDefaultAccount(SettingType settingType) {
-        return appSettingsRepository.findBySettingTypeDefaultAccount(settingType)
-                .orElseThrow(() -> new ElementNotFoundException("App setting not found. Type: " + settingType))
-                .getSettingData();
+        AppSettings appSettings = appSettingsRepository.findBySettingTypeDefaultAccount(settingType).orElse(null);
+        if (Objects.nonNull(appSettings)) {
+            return appSettings.getSettingData();
+        }
+        return "";
     }
 }

@@ -6,7 +6,9 @@ import com.vasylyev.hometasks.exception.ElementNotFoundException;
 import com.vasylyev.hometasks.google.GoogleSheetsService;
 import com.vasylyev.hometasks.mapper.CourseWorkMapper;
 import com.vasylyev.hometasks.model.CourseWorkModel;
+import com.vasylyev.hometasks.model.enums.SettingType;
 import com.vasylyev.hometasks.repository.CourseWorkRepository;
+import com.vasylyev.hometasks.service.AppSettingsService;
 import com.vasylyev.hometasks.service.CourseService;
 import com.vasylyev.hometasks.service.CourseWorkService;
 import com.vasylyev.hometasks.telegram.TelegramNotifier;
@@ -34,6 +36,7 @@ public class CourseWorkServiceImpl implements CourseWorkService {
     private final CourseService courseService;
     private final TelegramNotifier telegramNotifier;
     private final GoogleSheetsService googleSheetsService;
+    private final AppSettingsService appSettingsService;
 
     private final String regex = "[^\\p{L}\\p{N}\\p{P}\\p{Z}]";
 
@@ -74,16 +77,18 @@ public class CourseWorkServiceImpl implements CourseWorkService {
                 );
 
                 //update google sheets
-                try {
-                    googleSheetsService.appendRow(courseWorkDto);
-                } catch (IOException e) {
-                    log.error("Error updating google sheet: " + e.getMessage());
-                } catch (GeneralSecurityException e) {
-                    log.error("Error updating google sheet: " + e.getMessage());
+                if (appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_USE_STATUS).equals("active")) {
+                    try {
+                        googleSheetsService.appendRow(courseWorkDto);
+                    } catch (IOException e) {
+                        log.error("Error updating google sheet: " + e.getMessage());
+                    } catch (GeneralSecurityException e) {
+                        log.error("Error updating google sheet: " + e.getMessage());
+                    }
                 }
 
             } //else {
-                //log.info("Course Work already exist. id:" + courseWorkDto.getId());
+            //log.info("Course Work already exist. id:" + courseWorkDto.getId());
             //}
         }
     }

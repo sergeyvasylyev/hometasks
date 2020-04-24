@@ -32,8 +32,8 @@ public class SubscriberController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public SubscriberDto addSubscriber() {
-        return SubscriberDto.builder().build();
+    public SubscriberDto addSubscriber(@ModelAttribute("subscriberDto") SubscriberDto subscriberDto) {
+        return subscriberService.save(subscriberDto);
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)

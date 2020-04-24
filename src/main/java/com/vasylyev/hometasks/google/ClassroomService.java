@@ -85,7 +85,7 @@ public class ClassroomService {
         return new Classroom.Builder(httpTransport, JSON_FACTORY, GoogleApiUtil.getCredentials(
                 httpTransport,
                 appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_CLASSROOM_TOKEN_DIR),
-                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_CLASSROOM_TOKEN_CREDENTIALS),
+                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS),
                 SCOPES,
                 "ClassroomService"))
                 .setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
