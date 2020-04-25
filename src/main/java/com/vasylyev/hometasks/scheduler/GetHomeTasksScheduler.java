@@ -25,7 +25,8 @@ public class GetHomeTasksScheduler {
     private final ClassroomService classroomService;
     private final AppSettingsService appSettingsService;
 
-    @Scheduled(fixedRateString = "${hometask.get.job.frequency}")
+    //@Scheduled(fixedRateString = "${hometask.get.job.frequency}")
+    @Scheduled(fixedRateString = "300000")
     public void getHometaskJob() throws IOException, GeneralSecurityException {
         if (appSettingsService.getSettingDataForDefaultAccount(SettingType.JOB_GET_COURSES_STATUS).equals("active")){
             log.info("Get hometask job started");
