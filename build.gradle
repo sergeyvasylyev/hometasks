@@ -21,8 +21,6 @@ ext {
     googleApiClassroomVersion = 'v1-rev393-1.25.0'
     googleApiSheetsVersion = 'v4-rev612-1.25.0'
 
-    mariadbClientVersion = '2.1.2'
-
     telegrambotVersion = '4.1'
 
     bootstrapVersion = '3.3.7'
@@ -40,7 +38,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.mariadb.jdbc:mariadb-java-client:' + mariadbClientVersion
 
     //google
     compile group: 'com.google.api-client', name: 'google-api-client', version: googleApiClientVersion
@@ -55,6 +52,8 @@ dependencies {
     compile group: 'org.webjars', name: 'bootstrap', version: bootstrapVersion
     compile group: 'org.webjars', name: 'jquery', version: jqueryVersion
     compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: thymeleafDialectVersion
+
+    compile 'mysql:mysql-connector-java:6.0.3'
 
     compileOnly 'org.projectlombok:lombok:' + lombokVersion
     annotationProcessor 'org.projectlombok:lombok:' + lombokVersion
