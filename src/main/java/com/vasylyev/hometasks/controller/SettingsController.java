@@ -67,7 +67,7 @@ public class SettingsController {
     }
 
     @RequestMapping(value = "/jobHistory", method = RequestMethod.GET)
-    public List<JobHistory> getJobHistory(){
+    public List<JobHistory> getJobHistory() {
         return jobHistoryService.getAllJobHistory();
     }
 }

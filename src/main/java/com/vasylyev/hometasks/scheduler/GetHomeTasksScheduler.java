@@ -27,7 +27,6 @@ public class GetHomeTasksScheduler {
     private final AppSettingsService appSettingsService;
     private final JobHistoryService jobHistoryService;
 
-    //@Scheduled(fixedRateString = "${hometask.get.job.frequency}")
     @Scheduled(fixedRateString = "300000")
     public void getHometaskJob() throws IOException, GeneralSecurityException {
         if (appSettingsService.getSettingDataForDefaultAccount(SettingType.JOB_GET_COURSES_STATUS).equals("active")) {
@@ -42,7 +41,7 @@ public class GetHomeTasksScheduler {
         }
     }
 
-    private void setJobHistoryStatus(String jobHistoryStatus){
+    private void setJobHistoryStatus(String jobHistoryStatus) {
         if (appSettingsService.getSettingDataForDefaultAccount(SettingType.JOB_GET_COURSES_HISTORY_STATUS).equals("active")) {
             jobHistoryService.saveJobHistory(JobHistory.builder()
                     .name(SettingType.JOB_GET_COURSES_STATUS.toString())
