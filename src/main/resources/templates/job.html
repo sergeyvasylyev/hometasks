@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
+
+    <script type="text/javascript" th:src="@{/lib/jobhistory.js}"></script>
+    <meta charset="UTF-8">
+    <title>Google Hometask</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <h1>Google Hometask. Job history</h1>
+    <table id="jobHistoryTable" class="display table table-bordered"
+           data-pagination="true"
+           data-id-field="id"
+           data-page-list="[10, 25, 50, 100, all]"
+           data-search="true">
+        <thead>
+        <tr>
+            <th data-field="id" data-visible="false" data-searchable="false">ID</th>
+            <th data-field="name" data-sortable="true">Job name</th>
+            <th data-field="status" data-searchable="false">Status</th>
+            <th data-field="executeDate" data-sortable="true" data-order="desc">Execute date</th>
+        </tr>
+        </thead>
+    </table>
+
+    <button type="submit" class="btn btn-primary" th:onclick="getJobHistory()">Get All</button>
+    <hr/>
+    <button type="submit" class="btn btn-primary" th:onclick="forceJob()">Force GET hometask job</button>
+    <hr/>
+    <p><a href="/settings" th:href="@{/settings}">Settings</a></p>
+</div>
+</body>
+</html>

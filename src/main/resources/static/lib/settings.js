@@ -29,6 +29,7 @@ var settingsList = ["GOOGLE_APP_NAME",
     "TELEGRAM_BOT_USERNAME",
     "TELEGRAM_BOT_TOKEN",
     "JOB_GET_COURSES_STATUS",
+    "JOB_GET_COURSES_HISTORY_STATUS",
     "GOOGLE_SHEETS_USE_STATUS"];
 
 var appSettingToAdd = [];
@@ -53,15 +54,4 @@ var accountData = { name:document.getElementById("account-name").value,
                //location.reload();
             }
         })
-}
-
-function forceJob(){
-    $.ajax({
-                type:"GET",
-                url:'/settings/force',
-                dataType: "json",
-                success:function(responsedata){
-                    //force success
-                }
-            })
 }

@@ -9,7 +9,10 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,10 +48,12 @@ public class GoogleApiUtil {
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 httpTransport, JSON_FACTORY, clientSecrets, scopes)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(tokenDir)))
+                //.setDataStoreFactory(new FileDataStoreFactory(new File(tokenDir)))
+                .setDataStoreFactory(new FileDataStoreFactory(new ClassPathResource("tokens/"+tokenDir).getFile()))
                 .setAccessType("offline")
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 

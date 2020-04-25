@@ -2,8 +2,10 @@ package com.vasylyev.hometasks.controller;
 
 import com.vasylyev.hometasks.dto.AccountDto;
 import com.vasylyev.hometasks.scheduler.GetHomeTasksScheduler;
+import com.vasylyev.hometasks.scheduler.model.JobHistory;
 import com.vasylyev.hometasks.service.AccountService;
 import com.vasylyev.hometasks.service.AppSettingsService;
+import com.vasylyev.hometasks.service.JobHistoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
@@ -24,6 +27,7 @@ public class SettingsController {
     private final AppSettingsService appSettingsService;
     private final AccountService accountService;
     private final GetHomeTasksScheduler homeTasksScheduler;
+    private final JobHistoryService jobHistoryService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getSettings() {
@@ -53,5 +57,17 @@ public class SettingsController {
         } catch (GeneralSecurityException e) {
             log.error("Job force error. " + e.getMessage());
         }
+    }
+
+    @RequestMapping(value = "/job", method = RequestMethod.GET)
+    public ModelAndView getJobSettings() {
+        ModelAndView modelSettings = new ModelAndView();
+        modelSettings.setViewName("job");
+        return modelSettings;
+    }
+
+    @RequestMapping(value = "/jobHistory", method = RequestMethod.GET)
+    public List<JobHistory> getJobHistory(){
+        return jobHistoryService.getAllJobHistory();
     }
 }

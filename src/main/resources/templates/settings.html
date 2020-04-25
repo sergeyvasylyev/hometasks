@@ -79,9 +79,11 @@
                 </td>
             </tr>
             <tr>
-                <td></td>
-                <td></td>
-                <td>Use status</td>
+                <td>Job history status</td>
+                <td>
+                    <input class="form-control" id="JOB_GET_COURSES_HISTORY_STATUS" placeholder="active">
+                </td>
+                <td>GS use status</td>
                 <td>
                     <input class="form-control" id="GOOGLE_SHEETS_USE_STATUS" placeholder="active">
                 </td>
@@ -93,9 +95,9 @@
     </div>
 
     <button type="submit" class="btn btn-primary" th:onclick="saveSettings()">Save</button>
-
     <hr/>
-    <button type="submit" class="btn btn-primary" th:onclick="forceJob()">Force GET hometask job</button>
+    <p><a href="/settings/job" th:href="@{/settings/job}">Job settings</a></p>
+
 </div>
 </body>
 </html>

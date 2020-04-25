@@ -39,6 +39,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+//    implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
+
     //google
     compile group: 'com.google.api-client', name: 'google-api-client', version: googleApiClientVersion
     compile group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: googleOauthClientVersion
