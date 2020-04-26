@@ -1,5 +1,8 @@
 package com.vasylyev.hometasks.google;
 
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -16,6 +19,7 @@ import com.vasylyev.hometasks.exception.ElementNotFoundException;
 import com.vasylyev.hometasks.mapper.CourseMapper;
 import com.vasylyev.hometasks.mapper.CourseWorkMapper;
 import com.vasylyev.hometasks.model.enums.SettingType;
+import com.vasylyev.hometasks.service.AccountService;
 import com.vasylyev.hometasks.service.AppSettingsService;
 import com.vasylyev.hometasks.service.CourseWorkService;
 import lombok.RequiredArgsConstructor;
@@ -39,17 +43,10 @@ public class ClassroomService {
     private final CourseWorkMapper courseWorkMapper;
     private final CourseWorkService courseWorkService;
     private final AppSettingsService appSettingsService;
+    private final AccountService accountService;
+    private final GoogleAuthorizationCodeFlow googleAuth;
 
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    /**
-     * Global instance of the scopes required by this quickstart.
-     * If modifying these scopes, delete your previously saved tokens/ folder.
-     */
-    private static final List<String> SCOPES = ImmutableList.of(
-            ClassroomScopes.CLASSROOM_COURSES_READONLY,
-            ClassroomScopes.CLASSROOM_COURSEWORK_ME_READONLY,
-            "https://www.googleapis.com/auth/classroom.topics.readonly"
-    );
 
     public List<CourseDto> getCourses() throws IOException, GeneralSecurityException {
         Classroom service = getClassroom();
@@ -82,13 +79,20 @@ public class ClassroomService {
 
     private Classroom getClassroom() throws GeneralSecurityException, IOException {
         final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        return new Classroom.Builder(httpTransport, JSON_FACTORY, GoogleApiUtil.getCredentials(
-                httpTransport,
-                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_CLASSROOM_TOKEN_DIR),
-                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS),
-                SCOPES,
-                "ClassroomService"))
-                .setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
+
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+
+        return new Classroom.Builder(httpTransport,
+                JSON_FACTORY,
+                new AuthorizationCodeInstalledApp(googleAuth, receiver).authorize(accountService.getDefaultAccount().getName())
+        ).setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
                 .build();
+//        return new Classroom.Builder(httpTransport, JSON_FACTORY, new GoogleApiUtil().getCredentials(
+//                httpTransport,
+//                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_CLASSROOM_TOKEN_DIR),
+//                //appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS),
+//                SCOPES))
+//                .setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
+//                .build();
     }
 }

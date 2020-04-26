@@ -8,20 +8,31 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.store.DataStoreFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
+import com.google.api.client.util.store.MemoryDataStoreFactory;
+import com.vasylyev.hometasks.repository.GoogleCredentialRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.StandardCopyOption;
+import java.io.OutputStream;
 import java.util.List;
 
+@Slf4j
 public class GoogleApiUtil {
+
+    @Autowired
+    private GoogleCredentialRepository repository;
+
+    @Autowired
+    private GoogleAuthorizationCodeFlow googleAuth;
 
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
@@ -32,53 +43,35 @@ public class GoogleApiUtil {
      * @return An authorized Credential object.
      * @throws IOException If the credentials_gc.json file cannot be found.
      */
-    public static Credential getCredentials(final NetHttpTransport httpTransport,
-                                            String tokenDir, String credentialsFileName, List<String> scopes, String apiType) throws IOException {
+    public Credential getCredentials(final NetHttpTransport httpTransport,
+                                            String credentialsFileName, List<String> scopes) throws IOException {
 
         // Load client secrets.
-        InputStream in = null;
-        if (apiType.equals("ClassroomService")) {
-            in = ClassroomService.class.getResourceAsStream("/" + credentialsFileName);
-        } else {
-            in = GoogleSheetsService.class.getResourceAsStream("/" + credentialsFileName);
-        }
+        InputStream in = getClass().getResourceAsStream("/" + credentialsFileName);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + "/" + credentialsFileName);
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-        //setDataStoreFactory(new FileDataStoreFactory(new ClassPathResource("tokens/"+tokenDir).getFile()))
-
-        InputStream inputStream = new ClassPathResource("tokens/" + tokenDir).getInputStream();
-        java.io.File tokenFile = java.io.File.createTempFile("tmp", "");
-        java.io.File tokenFile2 = new ClassPathResource("tokens/"+tokenDir).getFile();
-        try {
-            FileUtils.copyInputStreamToFile(inputStream, tokenFile);
-//            java.nio.file.Files.copy(
-//                    inputStream,
-//                    tokenFile.toPath(),
-//                    StandardCopyOption.REPLACE_EXISTING);
-        } finally {
-            IOUtils.closeQuietly(inputStream);
-        }
-
-        FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(tokenFile);
-        //FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(new ClassPathResource("tokens/" + tokenDir).getFile());
+        DataStoreFactory dataStoreFactory = new JPADataStoreFactory(repository);
 
         // Build flow and trigger user authorization request.
-        GoogleAuthorizationCodeFlow flow = null;
-        try {
-            flow = new GoogleAuthorizationCodeFlow.Builder(
-                    httpTransport, JSON_FACTORY, clientSecrets, scopes)
-                    .setDataStoreFactory(dataStoreFactory)
-                    .setAccessType("offline")
-                    .build();
-        } catch (IOException e){
-            System.out.println(e.getMessage());
-        }
+//        GoogleAuthorizationCodeFlow flow = null;
+//        try {
+//            flow = new GoogleAuthorizationCodeFlow.Builder(
+//                    httpTransport, JSON_FACTORY, clientSecrets, scopes)
+//                    .setDataStoreFactory(dataStoreFactory)
+//                    //.setDataStoreFactory(new FileDataStoreFactory(fileToken))
+//                    //.setDataStoreFactory(new FileDataStoreFactory(new File(new ClassPathResource(tokenDir).getURI())))
+//                    //.setDataStoreFactory(new FileDataStoreFactory(new File(ClassroomService.class.getResource("/" + tokenDir).getPath())))
+//                    .setAccessType("offline")
+//                    .build();
+//        } catch (IOException e) {
+//            System.out.println(e.getMessage());
+//        }
+
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
 
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+        return new AuthorizationCodeInstalledApp(googleAuth, receiver).authorize("user");
     }
-
 }

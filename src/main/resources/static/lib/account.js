@@ -33,3 +33,13 @@ function saveSettings(){
             }
         })
 }
+
+function authorize(){
+    $.ajax({
+            type:"GET",
+            url:'/google/setup',
+            data:{name:document.getElementById("account-name").value},
+            success:function(responsedata){
+            }
+    })
+}

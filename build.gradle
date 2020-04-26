@@ -55,7 +55,7 @@ dependencies {
     compile group: 'org.webjars', name: 'jquery', version: jqueryVersion
     compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: thymeleafDialectVersion
 
-   // compile 'mysql:mysql-connector-java:6.0.3'
+    //compile 'mysql:mysql-connector-java:6.0.3'
 
     compileOnly 'org.projectlombok:lombok:' + lombokVersion
     annotationProcessor 'org.projectlombok:lombok:' + lombokVersion
