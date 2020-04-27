@@ -5,6 +5,8 @@ import com.vasylyev.hometasks.google.ClassroomService;
 import com.vasylyev.hometasks.service.CourseService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,5 +42,21 @@ public class CourseController {
         courseService.addCourses(classroomService.getCourses());
         log.info("Update course by user request.");
         return courseService.findAll();
+    }
+
+    @RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
+    public CourseDto getCourse(@PathVariable String courseId) {
+        return courseService.findById(courseId);
+    }
+
+    @RequestMapping(value = "/{courseId}", method = RequestMethod.PUT)
+    public CourseDto updateCourse(@PathVariable String courseId, @ModelAttribute("courseDto") CourseDto courseDto) {
+        return courseService.addCourse(courseDto);
+    }
+
+    @RequestMapping(value = "/{courseId}", method = RequestMethod.DELETE)
+    public String deleteCourse(@PathVariable String courseId) {
+        courseService.deleteCourse(courseId);
+        return "ok";
     }
 }

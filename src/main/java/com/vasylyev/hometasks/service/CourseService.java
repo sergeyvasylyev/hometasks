@@ -17,4 +17,6 @@ public interface CourseService {
     List<String> findAllNames();
 
     List<CourseDto> findByIds(Iterable<String> idList);
+
+    void deleteCourse(String id);
 }

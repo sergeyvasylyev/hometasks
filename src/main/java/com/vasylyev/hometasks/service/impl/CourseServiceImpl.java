@@ -4,12 +4,15 @@ import com.vasylyev.hometasks.dto.CourseDto;
 import com.vasylyev.hometasks.exception.ElementNotFoundException;
 import com.vasylyev.hometasks.mapper.CourseMapper;
 import com.vasylyev.hometasks.model.CourseModel;
+import com.vasylyev.hometasks.model.CourseWorkModel;
 import com.vasylyev.hometasks.repository.CourseRepository;
+import com.vasylyev.hometasks.repository.CourseWorkRepository;
 import com.vasylyev.hometasks.service.CourseService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +26,7 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseMapper courseMapper;
     private final CourseRepository courseRepository;
+    private final CourseWorkRepository courseWorkRepository;
 
     @Override
     public CourseDto addCourse(CourseDto courseDto) {
@@ -42,7 +46,7 @@ public class CourseServiceImpl implements CourseService {
                 courseRepository.save(courseMapper.toModel(courseDto));
                 log.info("Course saved. id:" + courseDto.getId());
             } //else {
-                //log.info("Course already exist. id:" + courseDto.getId());
+            //log.info("Course already exist. id:" + courseDto.getId());
             //}
         }
     }
@@ -73,5 +77,21 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findAllById(idList).stream()
                 .map(c -> courseMapper.toDto(c))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteCourse(String id) {
+        deleteCourseWorksByCourseId(id);
+        courseRepository.deleteById(id);
+        log.info("Deleted course. id:" + id);
+    }
+
+    @Transactional
+    private void deleteCourseWorksByCourseId(String courseId) {
+        List<CourseWorkModel> courseWorkModels = courseWorkRepository.findByCourseId(courseId);
+        for (CourseWorkModel courseWork : courseWorkModels) {
+            courseWorkRepository.deleteById(courseWork.getId());
+            log.info("Deleted course work. id:" + courseWork.getId());
+        }
     }
 }

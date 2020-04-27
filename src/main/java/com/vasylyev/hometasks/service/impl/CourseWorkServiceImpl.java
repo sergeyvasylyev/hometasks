@@ -120,4 +120,17 @@ public class CourseWorkServiceImpl implements CourseWorkService {
                 );
         return courseWorkDtoList;
     }
+
+    @Override
+    public List<CourseWorkDto> findByCourseId(String courseId) {
+        return courseWorkRepository.findAll().stream()
+                .filter(cw -> cw.getCourseId().equals(courseId))
+                .map(cw -> courseWorkMapper.toDto(cw))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteCourseWork(String courseWorkId) {
+        courseWorkRepository.deleteById(courseWorkId);
+    }
 }

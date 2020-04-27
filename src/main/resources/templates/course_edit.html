@@ -13,24 +13,7 @@
 </head>
 <body>
 <div layout:fragment="content" th:remove="tag">
-    <h1>Google Hometask. Courses</h1>
-
-    <table id="courseTable" class="display table table-bordered"
-           data-pagination="true"
-           data-id-field="id"
-           data-page-list="[10, 25, 50, 100, all]">
-        <thead>
-        <tr>
-            <th data-field="id" data-visible="false">ID</th>
-            <th data-field="name">Name</th>
-            <th data-field="descriptionHeading">Description</th>
-            <th data-field="alternateLink">Link</th>
-        </tr>
-        </thead>
-    </table>
-
-        <button type="submit" class="btn btn-primary" th:onclick="updateCourses()">Update from Googleclass</button>
-<!--    <button type="submit" class="btn btn-primary" th:onclick="getAllCourses()">Get All</button>-->
+    <h1>Google Hometask. Course</h1>
 
     <div class="form-group">
         <div class="row">
@@ -43,7 +26,7 @@
                 <label>Alternate link</label>
                 <input name="alternateLink" class="form-control" id="alternateLink" readonly>
                 <label>Enrollment code</label>
-                <input name="enrollmentCode" class="form-control" id="enrollmentCode">
+                <input name="enrollmentCode" class="form-control" id="enrollmentCode" type="hidden">
                 <input name="sourceOfFunds" class="form-control" id="sourceOfFunds" type="hidden">
                 <input name="courseState" class="form-control" id="courseState" type="hidden">
                 <input name="room" class="form-control" id="room" type="hidden">
@@ -54,7 +37,6 @@
 
     <button type="submit" class="btn btn-primary" th:onclick="updateCourse()">Update course</button>
     <button type="submit" class="btn btn-primary" th:onclick="deleteCourse()">Delete course</button>
-
 
 </div>
 </body>

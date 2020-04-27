@@ -15,7 +15,6 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "google_credentials")
-//@EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

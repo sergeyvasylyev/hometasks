@@ -14,5 +14,9 @@ public interface CourseWorkService {
 
     List<CourseWorkDto> findAll();
 
+    List<CourseWorkDto> findByCourseId(String courseId);
+
     List<CourseWorkDto> fillCourseById(List<CourseWorkDto> courseWorkDtoList);
+
+    void deleteCourseWork(String courseWorkId);
 }

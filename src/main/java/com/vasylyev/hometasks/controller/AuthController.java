@@ -36,7 +36,7 @@ public class AuthController {
                 .setRedirectUri(request.getRequestURL().toString())
                 .execute();
         googleAuth.createAndStoreCredential(tokenResponse, state);
-        return "/account";
+        return "redirect:/account";
     }
 
 }
