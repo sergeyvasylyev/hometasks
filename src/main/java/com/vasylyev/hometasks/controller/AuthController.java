@@ -18,20 +18,21 @@ public class AuthController {
     private final GoogleAuthorizationCodeFlow googleAuth;
 
     @GetMapping("/google/setup")
-    public String getGoogleSetup(@RequestParam String name){
+    public String getGoogleSetup(@RequestParam String name, HttpServletRequest request) {
         String userEmail = "s.vasylyev@gmail.com";
-    return "redirect:" + googleAuth.newAuthorizationUrl()
-            .setRedirectUri("http://localhost:8080/google/auth")
-            .setState(userEmail)
-            .build();
+        return "redirect:" + googleAuth.newAuthorizationUrl()
+                .setRedirectUri(request.getRequestURL().toString().replace(request.getRequestURI(), "/google/auth"))
+                .setState(userEmail)
+                .build();
     }
 
     @GetMapping("/google/auth")
-    public String getGoogleResponse(@RequestParam String code,
+    public String getGoogleResponse(HttpServletRequest request,
+                                    @RequestParam String code,
                                     @RequestParam String state
     ) throws IOException {
         TokenResponse tokenResponse = googleAuth.newTokenRequest(code)
-                .setRedirectUri("http://localhost:8080/google/auth")
+                .setRedirectUri(request.getRequestURL().toString())
                 .execute();
         googleAuth.createAndStoreCredential(tokenResponse, state);
         return "/account";
