@@ -1,16 +1,18 @@
 package com.vasylyev.hometasks.google;
 
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.sheets.v4.Sheets;
-import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.AppendValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
-import com.google.common.collect.ImmutableList;
 import com.vasylyev.hometasks.dto.CourseWorkDto;
 import com.vasylyev.hometasks.model.enums.SettingType;
+import com.vasylyev.hometasks.service.AccountService;
 import com.vasylyev.hometasks.service.AppSettingsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +22,6 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.List;
 
 import static java.util.Objects.nonNull;
 
@@ -30,25 +31,27 @@ import static java.util.Objects.nonNull;
 public class GoogleSheetsService {
 
     private final AppSettingsService appSettingsService;
+    private final AccountService accountService;
+    private final GoogleAuthorizationCodeFlow googleAuth;
 
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    /**
-     * Global instance of the scopes required by this quickstart.
-     * If modifying these scopes, delete your previously saved tokens/ folder.
-     */
-    private static final List<String> SCOPES = ImmutableList.of(
-            SheetsScopes.SPREADSHEETS_READONLY,
-            SheetsScopes.SPREADSHEETS);
 
     public void appendRow(CourseWorkDto courseWorkDto) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        Sheets service = new Sheets.Builder(httpTransport, JSON_FACTORY, new GoogleApiUtil().getCredentials(
-                httpTransport,
-                //appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_TOKEN_DIR),
-                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS),
-                SCOPES))
-                .setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
+//        Sheets service = new Sheets.Builder(httpTransport, JSON_FACTORY, new GoogleApiUtil().getCredentials(
+//                httpTransport,
+//                //appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_TOKEN_DIR),
+//                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS),
+//                SCOPES))
+//                .setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
+//                .build();
+
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        Sheets service = new Sheets.Builder(httpTransport,
+                JSON_FACTORY,
+                new AuthorizationCodeInstalledApp(googleAuth, receiver).authorize(accountService.getDefaultAccount().getName())
+        ).setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
                 .build();
 
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM");

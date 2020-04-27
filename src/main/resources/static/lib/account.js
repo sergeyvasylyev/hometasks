@@ -49,15 +49,13 @@ function authorize(){
 function getGoogleAuth(){
 $.ajax({
             type:"GET",
-            headers: {
-                    'Access-Control-Allow-Origin':'*',
-                    'Access-Control-Allow-Methods':'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                    'Access-Control-Allow-Headers':'Origin, Content-Type, X-Auth-Token'
-                },
-//            beforeSend: function(request) {
-//                request.setRequestHeader("Authority", authorizationToken);
-//              },
-            url:'https://accounts.google.com/o/oauth2/auth?access_type=offline&client_id=1687532898-j712qggo8ultk4ljddn0ork5psfr2dpp.apps.googleusercontent.com&redirect_uri=http://svasylyev:8080/google/auth&response_type=code&scope=https://www.googleapis.com/auth/classroom.courses.readonly%20https://www.googleapis.com/auth/classroom.coursework.me.readonly%20https://www.googleapis.com/auth/classroom.topics.readonly&state=s.vasylyev@gmail.com',
+//            headers: {
+//                    'Access-Control-Allow-Origin': '*',
+//                    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+//                    'Access-Control-Allow-Headers': 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range',
+//                    'Access-Control-Expose-Headers': 'Content-Length,Content-Range'
+//                },
+            url:'https://accounts.google.com/o/oauth2/auth?access_type=offline&client_id=1687532898-j712qggo8ultk4ljddn0ork5psfr2dpp.apps.googleusercontent.com&redirect_uri=http://localhost:8080/google/auth&response_type=code&scope=https://www.googleapis.com/auth/classroom.courses.readonly%20https://www.googleapis.com/auth/classroom.coursework.me.readonly%20https://www.googleapis.com/auth/classroom.topics.readonly&state=s.vasylyev@gmail.com',
             success:function(responsedata){
             }
     })

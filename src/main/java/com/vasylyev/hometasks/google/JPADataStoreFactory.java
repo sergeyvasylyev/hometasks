@@ -11,20 +11,17 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor
 public class JPADataStoreFactory extends AbstractDataStoreFactory {
 
     private final GoogleCredentialRepository repository;
 
-
-//    public JPADataStoreFactory(GoogleCredentialRepository repository) {
-//        this.repository = repository;
-//    }
+    public JPADataStoreFactory(GoogleCredentialRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     protected JPADataStore createDataStore(String id) throws IOException {
         return new JPADataStore(this, id, repository);
     }
-
 
 }

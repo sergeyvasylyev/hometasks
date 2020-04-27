@@ -6,8 +6,8 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.DataStoreFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.classroom.ClassroomScopes;
+import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.common.collect.ImmutableList;
 import com.vasylyev.hometasks.google.JPADataStoreFactory;
 import com.vasylyev.hometasks.model.enums.SettingType;
@@ -22,7 +22,6 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -58,8 +57,10 @@ public class BaseConfig {
     public GoogleAuthorizationCodeFlow googleAuth(GoogleCredentialRepository repository,
                                                   AppSettingsService appSettingsService) throws IOException {
 
+        final String CLASSROOM_TOPIC_READONLY = "https://www.googleapis.com/auth/classroom.topics.readonly";
         final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-        Resource resource = new ClassPathResource(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS));
+        Resource resource = new ClassPathResource(appSettingsService
+                .getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS));
         InputStream in = resource.getInputStream();
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(
                 JSON_FACTORY,
@@ -68,7 +69,9 @@ public class BaseConfig {
         Collection<String> scopes = ImmutableList.of(
                 ClassroomScopes.CLASSROOM_COURSES_READONLY,
                 ClassroomScopes.CLASSROOM_COURSEWORK_ME_READONLY,
-                "https://www.googleapis.com/auth/classroom.topics.readonly"
+                CLASSROOM_TOPIC_READONLY,
+                SheetsScopes.SPREADSHEETS_READONLY,
+                SheetsScopes.SPREADSHEETS
         );
 
         DataStoreFactory dataStore = new JPADataStoreFactory(repository);

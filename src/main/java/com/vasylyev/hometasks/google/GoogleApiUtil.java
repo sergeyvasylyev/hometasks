@@ -9,20 +9,14 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.DataStoreFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.client.util.store.MemoryDataStoreFactory;
 import com.vasylyev.hometasks.repository.GoogleCredentialRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.List;
 
 @Slf4j
@@ -44,7 +38,7 @@ public class GoogleApiUtil {
      * @throws IOException If the credentials_gc.json file cannot be found.
      */
     public Credential getCredentials(final NetHttpTransport httpTransport,
-                                            String credentialsFileName, List<String> scopes) throws IOException {
+                                     String credentialsFileName, List<String> scopes) throws IOException {
 
         // Load client secrets.
         InputStream in = getClass().getResourceAsStream("/" + credentialsFileName);
