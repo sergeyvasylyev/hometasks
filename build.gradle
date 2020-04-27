@@ -39,7 +39,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
+    //implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
 
     //google
     compile group: 'com.google.api-client', name: 'google-api-client', version: googleApiClientVersion
@@ -55,7 +55,7 @@ dependencies {
     compile group: 'org.webjars', name: 'jquery', version: jqueryVersion
     compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: thymeleafDialectVersion
 
-    //compile 'mysql:mysql-connector-java:6.0.3'
+    compile 'mysql:mysql-connector-java:6.0.3'
 
     compileOnly 'org.projectlombok:lombok:' + lombokVersion
     annotationProcessor 'org.projectlombok:lombok:' + lombokVersion

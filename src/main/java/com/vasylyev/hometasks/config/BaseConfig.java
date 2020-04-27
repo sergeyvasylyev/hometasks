@@ -57,19 +57,19 @@ public class BaseConfig {
     public GoogleAuthorizationCodeFlow googleAuth(GoogleCredentialRepository repository,
                                                   AppSettingsService appSettingsService) throws IOException {
 
-        final String CLASSROOM_TOPIC_READONLY = "https://www.googleapis.com/auth/classroom.topics.readonly";
-        final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+        final String classroomTopicReadonly = "https://www.googleapis.com/auth/classroom.topics.readonly";
+        final JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         Resource resource = new ClassPathResource(appSettingsService
                 .getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS));
         InputStream in = resource.getInputStream();
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(
-                JSON_FACTORY,
+                jsonFactory,
                 new InputStreamReader(in)
         );
         Collection<String> scopes = ImmutableList.of(
                 ClassroomScopes.CLASSROOM_COURSES_READONLY,
                 ClassroomScopes.CLASSROOM_COURSEWORK_ME_READONLY,
-                CLASSROOM_TOPIC_READONLY,
+                classroomTopicReadonly,
                 SheetsScopes.SPREADSHEETS_READONLY,
                 SheetsScopes.SPREADSHEETS
         );
@@ -78,7 +78,7 @@ public class BaseConfig {
 
         return new GoogleAuthorizationCodeFlow.Builder(
                 new NetHttpTransport(),
-                JSON_FACTORY,
+                jsonFactory,
                 clientSecrets,
                 scopes
         )

@@ -2,10 +2,6 @@ package com.vasylyev.hometasks.google;
 
 import com.google.api.client.util.store.AbstractDataStoreFactory;
 import com.vasylyev.hometasks.repository.GoogleCredentialRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
