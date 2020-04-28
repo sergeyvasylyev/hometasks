@@ -1,5 +1,7 @@
 $(document).ready(function() {
     getAccount();
+    document.getElementById("google-authorization-link").hidden = true;
+
 });
 
 function getAccount(){
@@ -36,12 +38,13 @@ function saveSettings(){
 
 function authorize(){
     //getGoogleAuth();
-
     $.ajax({
             type:"GET",
             url:'/google/setup',
             data:{name:document.getElementById("account-name").value},
             success:function(responsedata){
+                document.getElementById("google-authorization-link").hidden = false;
+                document.getElementById("google-authorization-link").href = responsedata;
             }
     })
 }

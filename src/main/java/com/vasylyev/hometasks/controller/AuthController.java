@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -19,12 +20,14 @@ public class AuthController {
     private final AppSettingsService appSettingsService;
 
     @GetMapping("/google/setup")
+    @ResponseBody
     public String getGoogleSetup(@RequestParam String name, HttpServletRequest request) {
-        return "redirect:" + googleAuth.newAuthorizationUrl()
+        return googleAuth.newAuthorizationUrl()
                 .setRedirectUri(request.getRequestURL().toString().replace(request.getRequestURI(), "/google/auth"))
                 .setScopes(googleAuth.getScopes())
                 .setState(name)
-                .build();
+                .toString();
+                //.build();
     }
 
     @GetMapping("/google/auth")

@@ -32,7 +32,33 @@
         </thead>
     </table>
 
-    <button type="submit" class="btn btn-primary" th:onclick="getAllCourseworks()">Get All</button>
+<!--    <button type="submit" class="btn btn-primary" th:onclick="getAllCourseworks()">Get All</button>-->
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <input name="id" class="form-control" id="id" type="hidden">
+                <label>Title</label>
+                <input name="title" class="form-control" id="title">
+                <label>Description</label>
+                <input name="description" class="form-control" id="description">
+                <label>Alternate link</label>
+                <input name="alternateLink" class="form-control" id="alternateLink" readonly>
+                <label>Due date</label>
+                <input name="dueDate" class="form-control" type="datetime-local" id="dueDate">
+                <input name="updateTime" class="form-control" id="updateTime" type="hidden">
+                <input name="creationTime" class="form-control" id="creationTime" type="hidden">
+                <input name="courseId" class="form-control" id="courseId" type="hidden">
+                <input name="maxPoints" class="form-control" id="maxPoints" type="hidden">
+                <input name="state" class="form-control" id="state" type="hidden">
+                <input name="workType" class="form-control" id="workType" type="hidden">
+                <input name="topicId" class="form-control" id="topicId" type="hidden">
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" th:onclick="updateCoursework()">Update coursework</button>
+    <button type="submit" class="btn btn-primary" th:onclick="deleteCoursework()">Delete coursework</button>
 
 </div>
 </body>

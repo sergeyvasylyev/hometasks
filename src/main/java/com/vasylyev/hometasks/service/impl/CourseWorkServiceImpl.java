@@ -42,6 +42,9 @@ public class CourseWorkServiceImpl implements CourseWorkService {
 
     @Override
     public CourseWorkDto addCourseWork(CourseWorkDto courseWorkDto) {
+        if (isNull(courseWorkDto.getCourse())){
+            courseWorkDto.setCourse(courseService.findById(courseWorkDto.getCourseId()));
+        }
         CourseWorkModel courseWorkModel = courseWorkRepository.save(courseWorkMapper.toModel(courseWorkDto));
         log.info("Course Work saved. id:" + courseWorkModel.getId());
         return courseWorkMapper.toDto(courseWorkModel);
@@ -132,5 +135,6 @@ public class CourseWorkServiceImpl implements CourseWorkService {
     @Override
     public void deleteCourseWork(String courseWorkId) {
         courseWorkRepository.deleteById(courseWorkId);
+        log.info("Course Work deleted. id:" + courseWorkId);
     }
 }

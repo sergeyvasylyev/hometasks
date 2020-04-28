@@ -20,7 +20,10 @@
             <label class="form-check-label" for="is-default">Is default</label>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary" th:onclick="authorize()">Authorize with Google</button>
+    <button type="submit" class="btn btn-primary" th:onclick="authorize()">Get Google authorization link</button>
+    <p><a href="/" th:href="@{/}" id="google-authorization-link">Authorization
+        link</a></p>
+
     <br>
     <button type="submit" class="btn btn-primary" th:onclick="saveSettings()">Save settings</button>
 
