@@ -24,20 +24,20 @@ public class HometasksApplication {
      * 		+ enum with setting name
      * 		+ all data to db not to app properties
      * Auth:
-     * - move auth to UI
+     * + move auth to UI
      * Common:
-     * - use app without proper setting
+     * + use app without proper setting
      * - several accounts
      * 		- link telegram bot with subscribers
      * 		- add account id
      * 		- ad account to courses
-     * - google sheet - optional
-     * - telegram bot optional
-     * - scheduler - run only if proper settings are filled in
+     * + google sheet - optional
+     * + telegram bot optional
+     * + scheduler - run only if proper settings are filled in
      * + add checkstyle
      * AWS
-     *  - move to AWS
-     *  - refactor to AWS
+     *  + move to AWS
+     *  + refactor to AWS
      *
      * */
 

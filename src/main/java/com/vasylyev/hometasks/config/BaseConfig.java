@@ -14,19 +14,19 @@ import com.vasylyev.hometasks.model.enums.SettingType;
 import com.vasylyev.hometasks.repository.GoogleCredentialRepository;
 import com.vasylyev.hometasks.service.AppSettingsService;
 import com.vasylyev.hometasks.telegram.TelegramBot;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
 
+@Slf4j
 @Configuration
 public class BaseConfig {
 
@@ -59,12 +59,15 @@ public class BaseConfig {
 
         final String classroomTopicReadonly = "https://www.googleapis.com/auth/classroom.topics.readonly";
         final JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-        Resource resource = new ClassPathResource(appSettingsService
-                .getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS));
-        InputStream in = resource.getInputStream();
+
+        String appCredentials = appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS);
+        if (appCredentials.isEmpty()) {
+            appCredentials = "credentials_gc.json";
+        }
+
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(
                 jsonFactory,
-                new InputStreamReader(in)
+                new InputStreamReader(new ClassPathResource(appCredentials).getInputStream())
         );
         Collection<String> scopes = ImmutableList.of(
                 ClassroomScopes.CLASSROOM_COURSES_READONLY,
@@ -73,7 +76,6 @@ public class BaseConfig {
                 SheetsScopes.SPREADSHEETS_READONLY,
                 SheetsScopes.SPREADSHEETS
         );
-
         DataStoreFactory dataStore = new JPADataStoreFactory(repository);
 
         return new GoogleAuthorizationCodeFlow.Builder(

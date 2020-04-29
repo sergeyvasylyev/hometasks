@@ -1,6 +1,5 @@
 package com.vasylyev.hometasks.controller;
 
-import com.vasylyev.hometasks.dto.CourseDto;
 import com.vasylyev.hometasks.dto.CourseWorkDto;
 import com.vasylyev.hometasks.google.ClassroomService;
 import com.vasylyev.hometasks.service.CourseWorkService;

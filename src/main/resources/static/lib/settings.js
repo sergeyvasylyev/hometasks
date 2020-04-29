@@ -22,8 +22,6 @@ function fillPageData(item, index){
 function saveSettings(){
 var settingsList = ["GOOGLE_APP_NAME",
     "GOOGLE_APP_CREDENTIALS",
-    "GOOGLE_CLASSROOM_TOKEN_DIR",
-    "GOOGLE_SHEETS_TOKEN_DIR",
     "GOOGLE_SHEETS_SPREADSHEET_ID",
     "TELEGRAM_BOT_NAME",
     "TELEGRAM_BOT_USERNAME",

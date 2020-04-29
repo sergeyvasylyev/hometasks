@@ -67,7 +67,7 @@ public class ClassroomService {
         for (Course course : response.getCourses()) {
             ListCourseWorkResponse courseWorkResponse = service.courses().courseWork().list(course.getId()).execute();
             if (nonNull(courseWorkResponse) && !courseWorkResponse.isEmpty()) {
-                courseWorkResponse.getCourseWork().stream()
+                courseWorkResponse.getCourseWork()
                         .forEach(cw -> courseWorkDtoList.add(courseWorkMapper.toDto(cw)));
             }
         }

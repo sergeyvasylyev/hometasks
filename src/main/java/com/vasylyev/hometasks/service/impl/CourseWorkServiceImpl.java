@@ -42,7 +42,7 @@ public class CourseWorkServiceImpl implements CourseWorkService {
 
     @Override
     public CourseWorkDto addCourseWork(CourseWorkDto courseWorkDto) {
-        if (isNull(courseWorkDto.getCourse())){
+        if (isNull(courseWorkDto.getCourse())) {
             courseWorkDto.setCourse(courseService.findById(courseWorkDto.getCourseId()));
         }
         CourseWorkModel courseWorkModel = courseWorkRepository.save(courseWorkMapper.toModel(courseWorkDto));
