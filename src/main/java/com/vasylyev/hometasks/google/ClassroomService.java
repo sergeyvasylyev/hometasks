@@ -85,12 +85,5 @@ public class ClassroomService {
                 new AuthorizationCodeInstalledApp(googleAuth, receiver).authorize(accountService.getDefaultAccount().getName())
         ).setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
                 .build();
-//        return new Classroom.Builder(httpTransport, JSON_FACTORY, new GoogleApiUtil().getCredentials(
-//                httpTransport,
-//                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_CLASSROOM_TOKEN_DIR),
-//                //appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS),
-//                SCOPES))
-//                .setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
-//                .build();
     }
 }

@@ -39,13 +39,6 @@ public class GoogleSheetsService {
     public void appendRow(CourseWorkDto courseWorkDto) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-//        Sheets service = new Sheets.Builder(httpTransport, JSON_FACTORY, new GoogleApiUtil().getCredentials(
-//                httpTransport,
-//                //appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_TOKEN_DIR),
-//                appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS),
-//                SCOPES))
-//                .setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
-//                .build();
 
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         Sheets service = new Sheets.Builder(httpTransport,

@@ -27,7 +27,7 @@ public class GetHomeTasksScheduler {
     private final AppSettingsService appSettingsService;
     private final JobHistoryService jobHistoryService;
 
-    @Scheduled(fixedRateString = "300000")
+    @Scheduled(fixedRateString = "600000")
     public void getHometaskJob() throws IOException, GeneralSecurityException {
         if (appSettingsService.getSettingDataForDefaultAccount(SettingType.JOB_GET_COURSES_STATUS).equals("active")) {
             setJobHistoryStatus("Started");

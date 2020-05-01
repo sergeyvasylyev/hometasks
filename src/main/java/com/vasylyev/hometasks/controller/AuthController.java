@@ -26,9 +26,7 @@ public class AuthController {
                 .setRedirectUri(request.getRequestURL().toString().replace(request.getRequestURI(), "/google/auth"))
                 .setScopes(googleAuth.getScopes())
                 .setState(name)
-                //.setApprovalPrompt("consent")
                 .toString() + "&prompt=consent";
-        //.build();
     }
 
     @GetMapping("/google/auth")
