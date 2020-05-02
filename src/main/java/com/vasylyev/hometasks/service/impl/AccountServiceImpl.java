@@ -1,6 +1,7 @@
 package com.vasylyev.hometasks.service.impl;
 
 import com.vasylyev.hometasks.dto.AccountDto;
+import com.vasylyev.hometasks.dto.AccountSimpleDto;
 import com.vasylyev.hometasks.exception.ElementNotFoundException;
 import com.vasylyev.hometasks.mapper.AccountMapper;
 import com.vasylyev.hometasks.model.Account;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Service
@@ -27,11 +29,18 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void addAccount(AccountDto accountDto) {
-        if (isNull(accountDto.getAppSettings())) {
-            accountDto.setAppSettings(new ArrayList<>());
+        Account existingAccount = accountRepository.findById(accountDto.getName()).orElse(null);
+        if (isNull(existingAccount)){
+            if (isNull(accountDto.getAppSettings())) {
+                accountDto.setAppSettings(new ArrayList<>());
+            }
+        } else {
+            if (isNull(accountDto.getAppSettings())) {
+                accountDto.setAppSettings(accountMapper.toDto(existingAccount).getAppSettings());
+            }
         }
         Account account = accountMapper.toModel(accountDto);
-        account.getAppSettings().stream().forEach(a -> a.setAccount(account));
+        account.getAppSettings().forEach(a -> a.setAccount(account));
         accountRepository.save(account);
         log.info("Account saved: " + accountDto.getName());
     }
@@ -53,5 +62,11 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountDto> findAll() {
         return accountRepository.findAll().stream()
                 .map(a -> accountMapper.toDto(a)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AccountSimpleDto> findAllSimple() {
+        return accountRepository.findAll().stream()
+                .map(a -> accountMapper.toSimpleDto(a)).collect(Collectors.toList());
     }
 }

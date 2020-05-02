@@ -1,6 +1,7 @@
 package com.vasylyev.hometasks.mapper;
 
 import com.vasylyev.hometasks.dto.AccountDto;
+import com.vasylyev.hometasks.dto.AccountSimpleDto;
 import com.vasylyev.hometasks.model.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,13 @@ public class AccountMapper {
                 .appSettings(account.getAppSettings().stream()
                         .map(appSettings -> appSettingsMapper.toDto(appSettings))
                         .collect(Collectors.toList()))
+                .build();
+    }
+
+    public AccountSimpleDto toSimpleDto(Account account) {
+        return AccountSimpleDto.builder()
+                .name(account.getName())
+                .isDefault(account.getIsDefault())
                 .build();
     }
 }
