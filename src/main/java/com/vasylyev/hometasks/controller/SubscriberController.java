@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,7 +48,8 @@ public class SubscriberController {
     }
 
     @RequestMapping(value = "/{subscriberId}", method = RequestMethod.PUT)
-    public SubscriberDto updateSubscriber(@PathVariable String subscriberId, @ModelAttribute("subscriberDto") SubscriberDto subscriberDto) {
+    public SubscriberDto updateSubscriber(@PathVariable String subscriberId,
+                                          @RequestBody SubscriberDto subscriberDto) {
         return subscriberService.save(subscriberDto);
     }
 

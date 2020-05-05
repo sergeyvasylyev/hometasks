@@ -10,6 +10,8 @@ public interface SubscriberService {
 
     List<SubscriberDto> findAllActive();
 
+    List<SubscriberDto> findAllActiveByAccountId(String accountId);
+
     SubscriberDto findById(String id);
 
     SubscriberDto findByChatId(String chatId);

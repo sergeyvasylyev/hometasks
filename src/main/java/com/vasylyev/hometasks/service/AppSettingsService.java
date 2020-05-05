@@ -13,7 +13,7 @@ public interface AppSettingsService {
 
     List<AppSettingsDto> findByAccountId(String id);
 
-    AppSettingsDto findByType(SettingType settingType);
+    AppSettingsDto findByAccountIdByType(String accountId, SettingType settingType);
 
     String getSettingDataForDefaultAccount(SettingType settingType);
 

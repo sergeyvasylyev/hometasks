@@ -72,11 +72,13 @@ public class CourseWorkServiceImpl implements CourseWorkService {
                 log.info("Course Work saved. id:" + courseWorkDto.getId());
 
                 //send to telegram
-                telegramNotifier.sendToTelegram("New Hometask: "
-                        + "\nCourse: " + courseWorkDto.getCourse().getName()
-                        + "\nTitle: " + courseWorkDto.getTitle()
-                        + "\nLink: " + courseWorkDto.getAlternateLink()
-                        + (nonNull(courseWorkDto.getDueDate()) ? "\nDue date: " + courseWorkDto.getDueDate().toString() : "")
+                telegramNotifier.sendToTelegram(courseWorkDto.getCourse().getAccount(),
+                        "New Hometask: "
+                                + "\nAccount: " + courseWorkDto.getCourse().getAccount().getName()
+                                + "\nCourse: " + courseWorkDto.getCourse().getName()
+                                + "\nTitle: " + courseWorkDto.getTitle()
+                                + "\nLink: " + courseWorkDto.getAlternateLink()
+                                + (nonNull(courseWorkDto.getDueDate()) ? "\nDue date: " + courseWorkDto.getDueDate().toString() : "")
                 );
 
                 //update google sheets

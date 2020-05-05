@@ -21,6 +21,15 @@ public class AccountMapper {
                 .appSettings(accountDto.getAppSettings().stream()
                         .map(appSettingsDto -> appSettingsMapper.toModel(appSettingsDto))
                         .collect(Collectors.toList()))
+                .active(accountDto.getActive())
+                .build();
+    }
+
+    public Account toModel(AccountSimpleDto accountSimpleDto) {
+        return Account.builder()
+                .name(accountSimpleDto.getName())
+                .isDefault(accountSimpleDto.getIsDefault())
+                .active(accountSimpleDto.getActive())
                 .build();
     }
 
@@ -31,6 +40,7 @@ public class AccountMapper {
                 .appSettings(account.getAppSettings().stream()
                         .map(appSettings -> appSettingsMapper.toDto(appSettings))
                         .collect(Collectors.toList()))
+                .active(account.getActive())
                 .build();
     }
 
@@ -38,6 +48,7 @@ public class AccountMapper {
         return AccountSimpleDto.builder()
                 .name(account.getName())
                 .isDefault(account.getIsDefault())
+                .active(account.getActive())
                 .build();
     }
 }

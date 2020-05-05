@@ -16,17 +16,14 @@
     <h1>Google Hometask. Accounts</h1>
     <br>
 
-
     <div class="row">
         <div class="table-responsive col-md-6">
             <table id="accountTable" class="display table table-bordered">
                 <thead>
                 <tr>
                     <th data-field="name">Name</th>
-                    <th data-field="isDefault"
-                        data-checkbox="true"
-                        data-checkbox-enabled="false"
-                        data-show-select-title="true">Is default</th>
+                    <th data-field="isDefault">Is default</th>
+                    <th data-field="active">Active</th>
                 </tr>
                 </thead>
             </table>
@@ -42,6 +39,11 @@
                             <input type="checkbox" class="form-check-input" id="isDefault">
                             <label class="form-check-label" for="isDefault">is default</label>
                         </div>
+                        <br>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="active">
+                            <label class="form-check-label" for="active">Active</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -49,8 +51,9 @@
     </div>
     <div class="row">
         <div class="table-responsive col-md-6">
-<!--            <button type="submit" class="btn btn-primary" th:onclick="getAllAccounts()">Get All</button>-->
-            <button type="submit" class="btn btn-primary" th:onclick="authorize()">Get Google authorization link</button>
+            <!--            <button type="submit" class="btn btn-primary" th:onclick="getAllAccounts()">Get All</button>-->
+            <button type="submit" class="btn btn-primary" th:onclick="authorize()">Get Google authorization link
+            </button>
             <p><a href="/" th:href="@{/}" id="google-authorization-link">Authorization
                 link</a></p>
             <br>
@@ -70,19 +73,19 @@
 
     <br>
 
-<!--    <div class="form-group">-->
-<!--        <label for="account-name">Account name</label>-->
-<!--        <input class="form-control" id="account-name" placeholder="Account name"></th>-->
-<!--        <div class="form-check mb-2 mr-sm-2">-->
-<!--            <input class="form-check-input" type="checkbox" id="is-default">-->
-<!--            <label class="form-check-label" for="is-default">Is default</label>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <button type="submit" class="btn btn-primary" th:onclick="authorize()">Get Google authorization link</button>-->
-<!--    <p><a href="/" th:href="@{/}" id="google-authorization-link">Authorization-->
-<!--        link</a></p>-->
-<!--    <br>-->
-<!--    <button type="submit" class="btn btn-primary" th:onclick="saveSettings()">Save settings</button>-->
+    <!--    <div class="form-group">-->
+    <!--        <label for="account-name">Account name</label>-->
+    <!--        <input class="form-control" id="account-name" placeholder="Account name"></th>-->
+    <!--        <div class="form-check mb-2 mr-sm-2">-->
+    <!--            <input class="form-check-input" type="checkbox" id="is-default">-->
+    <!--            <label class="form-check-label" for="is-default">Is default</label>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <button type="submit" class="btn btn-primary" th:onclick="authorize()">Get Google authorization link</button>-->
+    <!--    <p><a href="/" th:href="@{/}" id="google-authorization-link">Authorization-->
+    <!--        link</a></p>-->
+    <!--    <br>-->
+    <!--    <button type="submit" class="btn btn-primary" th:onclick="saveSettings()">Save settings</button>-->
     <br>
     <p><a href="/settings" th:href="@{/settings}">Settings</a></p>
 

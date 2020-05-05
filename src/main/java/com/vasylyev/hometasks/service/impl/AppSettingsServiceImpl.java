@@ -44,8 +44,8 @@ public class AppSettingsServiceImpl implements AppSettingsService {
     }
 
     @Override
-    public AppSettingsDto findByType(SettingType settingType) {
-        return appSettingsMapper.toDto(appSettingsRepository.findBySettingType(settingType)
+    public AppSettingsDto findByAccountIdByType(String accountId, SettingType settingType) {
+        return appSettingsMapper.toDto(appSettingsRepository.findByAccountIdSettingType(accountId, settingType)
                 .orElseThrow(() -> new ElementNotFoundException("App setting not found. Type: " + settingType)));
     }
 

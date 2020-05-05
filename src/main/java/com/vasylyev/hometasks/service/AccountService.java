@@ -18,4 +18,8 @@ public interface AccountService {
 
     List<AccountSimpleDto> findAllSimple();
 
+    List<AccountDto> findAllActive();
+
+    List<AccountSimpleDto> findAllActiveSimple();
+
 }

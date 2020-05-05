@@ -24,4 +24,5 @@ public class Account {
     private Boolean isDefault;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AppSettings> appSettings;
+    private Boolean active;
 }

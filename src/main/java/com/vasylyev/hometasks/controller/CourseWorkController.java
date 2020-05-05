@@ -40,7 +40,7 @@ public class CourseWorkController {
 
     @RequestMapping(method = RequestMethod.POST)
     public CourseWorkDto saveCourseWorks() throws IOException, GeneralSecurityException {
-        courseWorkService.addCourseWorks(classroomService.getCourseWork());
+        //courseWorkService.addCourseWorks(classroomService.getCourseWork());
         return null;
     }
 

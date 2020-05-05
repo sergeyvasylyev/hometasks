@@ -1,8 +1,11 @@
 package com.vasylyev.hometasks.scheduler;
 
+import com.vasylyev.hometasks.dto.AccountDto;
+import com.vasylyev.hometasks.dto.AppSettingsDto;
 import com.vasylyev.hometasks.google.ClassroomService;
 import com.vasylyev.hometasks.model.enums.SettingType;
 import com.vasylyev.hometasks.scheduler.model.JobHistory;
+import com.vasylyev.hometasks.service.AccountService;
 import com.vasylyev.hometasks.service.AppSettingsService;
 import com.vasylyev.hometasks.service.CourseService;
 import com.vasylyev.hometasks.service.CourseWorkService;
@@ -15,6 +18,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Component
@@ -24,21 +30,33 @@ public class GetHomeTasksScheduler {
     private final CourseService courseService;
     private final CourseWorkService courseWorkService;
     private final ClassroomService classroomService;
+    private final AccountService accountService;
     private final AppSettingsService appSettingsService;
     private final JobHistoryService jobHistoryService;
 
     @Scheduled(fixedRateString = "600000")
     public void getHometaskJob() throws IOException, GeneralSecurityException {
-        if (appSettingsService.getSettingDataForDefaultAccount(SettingType.JOB_GET_COURSES_STATUS).equals("active")) {
-            setJobHistoryStatus("Started");
-            log.info("Get hometask job started");
 
-            courseService.addCourses(classroomService.getCourses());
-            courseWorkService.addCourseWorks(classroomService.getCourseWork());
+        List<AccountDto> accountDtoList = accountService.findAllActive();
+        for (AccountDto accountDto : accountDtoList) {
+            AppSettingsDto appSettingsDto = accountDto.getAppSettings().stream()
+                    .filter(appS -> appS.getSettingType().equals(SettingType.JOB_GET_COURSES_STATUS))
+                    .findFirst()
+                    .orElse(null);
+            if (nonNull(appSettingsDto) && appSettingsDto.getSettingData().equals("active")) {
 
-            log.info("Get hometask job ended");
-            setJobHistoryStatus("Ended");
+                setJobHistoryStatus("Started");
+                log.info("Get hometask job started. Account: " + accountDto.getName());
+
+                courseService.addCourses(classroomService.getCourses(accountDto));
+                courseWorkService.addCourseWorks(classroomService.getCourseWork(accountDto));
+
+                log.info("Get hometask job ended. Account: " + accountDto.getName());
+                setJobHistoryStatus("Ended");
+            }
+
         }
+
     }
 
     private void setJobHistoryStatus(String jobHistoryStatus) {

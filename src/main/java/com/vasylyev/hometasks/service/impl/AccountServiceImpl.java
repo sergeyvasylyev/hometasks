@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 @Slf4j
 @Service
@@ -30,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void addAccount(AccountDto accountDto) {
         Account existingAccount = accountRepository.findById(accountDto.getName()).orElse(null);
-        if (isNull(existingAccount)){
+        if (isNull(existingAccount)) {
             if (isNull(accountDto.getAppSettings())) {
                 accountDto.setAppSettings(new ArrayList<>());
             }
@@ -67,6 +66,22 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountSimpleDto> findAllSimple() {
         return accountRepository.findAll().stream()
-                .map(a -> accountMapper.toSimpleDto(a)).collect(Collectors.toList());
+                .map(a -> accountMapper.toSimpleDto(a))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<AccountDto> findAllActive() {
+        return accountRepository.findByActiveTrue().stream()
+                .map(a -> accountMapper.toDto(a))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AccountSimpleDto> findAllActiveSimple() {
+        return accountRepository.findByActiveTrue().stream()
+                .map(a -> accountMapper.toSimpleDto(a))
+                .collect(Collectors.toList());
     }
 }

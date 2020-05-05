@@ -43,7 +43,8 @@ $(document).ready(function() {
 function updateAccount(){
     var accountData = {
         name:document.getElementById("name").value,
-        isDefault:document.getElementById("isDefault").checked
+        isDefault:document.getElementById("isDefault").checked,
+        active:document.getElementById("active").checked
         };
        $.ajax({
             contentType: 'application/json',
@@ -72,6 +73,7 @@ function getAllAccounts(){
 function fillAccount(elem){
     document.getElementById("name").value = elem.name;
     document.getElementById("isDefault").checked = elem.isDefault;
+    document.getElementById("active").checked = elem.active;
 }
 
 //==============================================
