@@ -45,26 +45,29 @@ public class GetHomeTasksScheduler {
                     .orElse(null);
             if (nonNull(appSettingsDto) && appSettingsDto.getSettingData().equals("active")) {
 
-                setJobHistoryStatus("Started");
+                setJobHistoryStatus(accountDto, "Started");
                 log.info("Get hometask job started. Account: " + accountDto.getName());
 
                 courseService.addCourses(classroomService.getCourses(accountDto));
                 courseWorkService.addCourseWorks(classroomService.getCourseWork(accountDto));
 
                 log.info("Get hometask job ended. Account: " + accountDto.getName());
-                setJobHistoryStatus("Ended");
+                setJobHistoryStatus(accountDto, "Ended");
             }
-
         }
-
     }
 
-    private void setJobHistoryStatus(String jobHistoryStatus) {
-        if (appSettingsService.getSettingDataForDefaultAccount(SettingType.JOB_GET_COURSES_HISTORY_STATUS).equals("active")) {
+    private void setJobHistoryStatus(AccountDto accountDto, String jobHistoryStatus) {
+        AppSettingsDto appSettingsDto = accountDto.getAppSettings().stream()
+                .filter(appS -> appS.getSettingType().equals(SettingType.JOB_GET_COURSES_HISTORY_STATUS))
+                .findFirst()
+                .orElse(null);
+        if (nonNull(appSettingsDto) && appSettingsDto.getSettingData().equals("active")) {
             jobHistoryService.saveJobHistory(JobHistory.builder()
                     .name(SettingType.JOB_GET_COURSES_STATUS.toString())
                     .status(jobHistoryStatus)
                     .executeDate(LocalDateTime.now())
+                    .account(accountDto.getName())
                     .build());
         }
     }

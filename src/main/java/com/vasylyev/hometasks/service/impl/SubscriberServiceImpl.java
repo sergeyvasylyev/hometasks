@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,19 +60,23 @@ public class SubscriberServiceImpl implements SubscriberService {
     }
 
     @Override
+    @Transactional
     public SubscriberDto findByChatId(String chatId) {
         Subscriber subscriber = subscriberRepository.findByChatId(chatId).orElse(null);
         return nonNull(subscriber) ? subscriberMapper.toDto(subscriber) : null;
     }
 
     @Override
+    @Transactional
     public SubscriberDto save(SubscriberDto subscriberDto) {
         Subscriber subscriber = subscriberMapper.toModel(subscriberDto);
         List<Account> accounts = new ArrayList<>();
-        for (AccountSimpleDto accountSimpleDto : subscriberDto.getAccounts()) {
-            Account account = accountMapper.toModel(accountService.findByName(accountSimpleDto.getName()));
-            account.getAppSettings().forEach(a -> a.setAccount(account));
-            accounts.add(account);
+        if (nonNull(subscriberDto.getAccounts())) {
+            for (AccountSimpleDto accountSimpleDto : subscriberDto.getAccounts()) {
+                Account account = accountMapper.toModel(accountService.findByName(accountSimpleDto.getName()));
+                account.getAppSettings().forEach(a -> a.setAccount(account));
+                accounts.add(account);
+            }
         }
         subscriber.setAccounts(accounts);
         Subscriber result = subscriberRepository.save(subscriber);

@@ -20,9 +20,9 @@ public class SubscriberMapper {
                 .description(subscriberDto.getDescription())
                 .chatId(subscriberDto.getChatId())
                 .id(subscriberDto.getId())
-                .accounts(subscriberDto.getAccounts().stream()
-                        .map(a -> accountMapper.toModel(a))
-                        .collect(Collectors.toList()))
+//                .accounts(subscriberDto.getAccounts().stream()
+//                        .map(a -> accountMapper.toModel(a))
+//                        .collect(Collectors.toList()))
                 .build();
     }
 

@@ -59,6 +59,13 @@ public class CourseWorkServiceImpl implements CourseWorkService {
                 .map(c -> c.getId())
                 .collect(Collectors.toList());
         List<CourseWorkModel> courseWorkModelList = courseWorkRepository.findAllById(courseWorkIds);
+
+        boolean updateGS = false;
+        if (courseWorkDtoList.size() > 0) {
+            updateGS = appSettingsService.findByAccountIdByType(courseWorkDtoList.get(0).getCourse().getAccount().getName(),
+                    SettingType.GOOGLE_SHEETS_USE_STATUS).equals("active");
+        }
+
         for (CourseWorkDto courseWorkDto : courseWorkDtoList) {
             if (isNull(courseWorkModelList.stream()
                     .filter(c -> c.getId().equals(courseWorkDto.getId())).findFirst().orElse(null))) {
@@ -82,7 +89,7 @@ public class CourseWorkServiceImpl implements CourseWorkService {
                 );
 
                 //update google sheets
-                if (appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_USE_STATUS).equals("active")) {
+                if (updateGS) {
                     try {
                         googleSheetsService.appendRow(courseWorkDto);
                     } catch (IOException e) {
@@ -91,7 +98,6 @@ public class CourseWorkServiceImpl implements CourseWorkService {
                         log.error("Error updating google sheet: " + e.getMessage());
                     }
                 }
-
             } //else {
             //log.info("Course Work already exist. id:" + courseWorkDto.getId());
             //}
