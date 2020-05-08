@@ -63,7 +63,7 @@ public class CourseWorkServiceImpl implements CourseWorkService {
         boolean updateGS = false;
         if (courseWorkDtoList.size() > 0) {
             updateGS = appSettingsService.findByAccountIdByType(courseWorkDtoList.get(0).getCourse().getAccount().getName(),
-                    SettingType.GOOGLE_SHEETS_USE_STATUS).equals("active");
+                    SettingType.GOOGLE_SHEETS_USE_STATUS).getSettingData().equals("active");
         }
 
         for (CourseWorkDto courseWorkDto : courseWorkDtoList) {
