@@ -11,15 +11,19 @@ import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.model.Course;
 import com.google.api.services.classroom.model.ListCourseWorkResponse;
 import com.google.api.services.classroom.model.ListCoursesResponse;
+import com.google.api.services.classroom.model.ListStudentSubmissionsResponse;
 import com.vasylyev.hometasks.dto.AccountDto;
 import com.vasylyev.hometasks.dto.CourseDto;
 import com.vasylyev.hometasks.dto.CourseWorkDto;
+import com.vasylyev.hometasks.dto.StudentSubmissionDto;
 import com.vasylyev.hometasks.exception.ElementNotFoundException;
 import com.vasylyev.hometasks.mapper.CourseMapper;
 import com.vasylyev.hometasks.mapper.CourseWorkMapper;
+import com.vasylyev.hometasks.mapper.StudentSubmissionMapper;
 import com.vasylyev.hometasks.model.enums.SettingType;
 import com.vasylyev.hometasks.service.AppSettingsService;
 import com.vasylyev.hometasks.service.CourseWorkService;
+import com.vasylyev.hometasks.service.StudentSubmissionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -39,7 +43,9 @@ public class ClassroomService {
 
     private final CourseMapper courseMapper;
     private final CourseWorkMapper courseWorkMapper;
+    private final StudentSubmissionMapper studentSubmissionMapper;
     private final CourseWorkService courseWorkService;
+    private final StudentSubmissionService studentSubmissionService;
     private final AppSettingsService appSettingsService;
     private final GoogleAuthorizationCodeFlow googleAuth;
 
@@ -71,6 +77,25 @@ public class ClassroomService {
         }
 
         return courseWorkService.fillCourseById(courseWorkDtoList);
+    }
+
+    public List<StudentSubmissionDto> getStudentSubmission(AccountDto accountDto, List<CourseWorkDto> courseWorkDtoList) throws IOException, GeneralSecurityException {
+        Classroom service = getClassroom(accountDto.getName());
+        List<StudentSubmissionDto> studentSubmissionDtoList = new ArrayList<>();
+
+        List<String> courseWorkIdWithGrades = studentSubmissionService.findAllCourseWorkIdWithGrades();
+        List<CourseWorkDto> courseWorkDtoListToAdd = courseWorkDtoList.stream()
+                .filter(cw -> courseWorkIdWithGrades.indexOf(cw.getId()) < 0)
+                .collect(Collectors.toList());
+
+        for (CourseWorkDto courseWorkDto : courseWorkDtoListToAdd) {
+            service.courses().courseWork().studentSubmissions().list(
+                    courseWorkDto.getCourseId(),
+                    courseWorkDto.getId()
+            ).execute().getStudentSubmissions()
+                    .forEach(s -> studentSubmissionDtoList.add(studentSubmissionMapper.toDto(s)));
+        }
+        return studentSubmissionService.fillCourseAndCourseWorkById(studentSubmissionDtoList);
     }
 
     private Classroom getClassroom(String accountName) throws GeneralSecurityException, IOException {

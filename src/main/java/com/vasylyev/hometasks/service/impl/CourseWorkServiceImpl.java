@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
@@ -137,6 +138,14 @@ public class CourseWorkServiceImpl implements CourseWorkService {
         return courseWorkRepository.findAll().stream()
                 .filter(cw -> cw.getCourseId().equals(courseId))
                 .map(cw -> courseWorkMapper.toDto(cw))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<CourseWorkDto> findByIds(Iterable<String> idList) {
+        return courseWorkRepository.findAllById(idList).stream()
+                .map(c -> courseWorkMapper.toDto(c))
                 .collect(Collectors.toList());
     }
 

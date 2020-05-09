@@ -2,6 +2,7 @@ package com.vasylyev.hometasks.scheduler;
 
 import com.vasylyev.hometasks.dto.AccountDto;
 import com.vasylyev.hometasks.dto.AppSettingsDto;
+import com.vasylyev.hometasks.dto.CourseWorkDto;
 import com.vasylyev.hometasks.google.ClassroomService;
 import com.vasylyev.hometasks.model.enums.SettingType;
 import com.vasylyev.hometasks.scheduler.model.JobHistory;
@@ -10,6 +11,7 @@ import com.vasylyev.hometasks.service.AppSettingsService;
 import com.vasylyev.hometasks.service.CourseService;
 import com.vasylyev.hometasks.service.CourseWorkService;
 import com.vasylyev.hometasks.service.JobHistoryService;
+import com.vasylyev.hometasks.service.StudentSubmissionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,12 +31,13 @@ public class GetHomeTasksScheduler {
 
     private final CourseService courseService;
     private final CourseWorkService courseWorkService;
+    private final StudentSubmissionService studentSubmissionService;
     private final ClassroomService classroomService;
     private final AccountService accountService;
     private final AppSettingsService appSettingsService;
     private final JobHistoryService jobHistoryService;
 
-    @Scheduled(fixedRateString = "600000")
+    @Scheduled(fixedRateString = "900000")
     public void getHometaskJob() throws IOException, GeneralSecurityException {
 
         List<AccountDto> accountDtoList = accountService.findAllActive();
@@ -49,7 +52,10 @@ public class GetHomeTasksScheduler {
                 log.info("Get hometask job started. Account: " + accountDto.getName());
 
                 courseService.addCourses(classroomService.getCourses(accountDto));
-                courseWorkService.addCourseWorks(classroomService.getCourseWork(accountDto));
+                List<CourseWorkDto> courseWorkDtoList = classroomService.getCourseWork(accountDto);
+                courseWorkService.addCourseWorks(courseWorkDtoList);
+
+                studentSubmissionService.addStudentSubmission(classroomService.getStudentSubmission(accountDto, courseWorkDtoList));
 
                 log.info("Get hometask job ended. Account: " + accountDto.getName());
                 setJobHistoryStatus(accountDto, "Ended");
