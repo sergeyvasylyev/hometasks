@@ -58,6 +58,7 @@ public class BaseConfig {
                                                   AppSettingsService appSettingsService) throws IOException {
 
         final String classroomTopicReadonly = "https://www.googleapis.com/auth/classroom.topics.readonly";
+        final String classroomStudentSubmission = "https://www.googleapis.com/auth/classroom.coursework.me.readonly";
         final JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
         String appCredentials = appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_CREDENTIALS);
@@ -73,6 +74,7 @@ public class BaseConfig {
                 ClassroomScopes.CLASSROOM_COURSES_READONLY,
                 ClassroomScopes.CLASSROOM_COURSEWORK_ME_READONLY,
                 classroomTopicReadonly,
+                classroomStudentSubmission,
                 SheetsScopes.SPREADSHEETS_READONLY,
                 SheetsScopes.SPREADSHEETS
         );

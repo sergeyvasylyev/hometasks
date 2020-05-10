@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Data
@@ -33,4 +34,6 @@ public class CourseModel {
     private String room;
     @Column(name = "section", length = 100, columnDefinition = "VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL")
     private String section;
+    @OneToOne
+    private Account account;
 }

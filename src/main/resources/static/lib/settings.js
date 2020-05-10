@@ -5,8 +5,10 @@ $(document).ready(function() {
 function getSettings(){
 $.ajax({
                 type:"GET",
-                url:'/settings/getDefault',
+                //url:'/settings/getDefault',
+                url:'/settings/get',
                 dataType: "json",
+                data:{name:getUrlVars()["name"]},
                 success:function(responsedata){
                     document.getElementById("account-name").value = responsedata.name;
                     document.getElementById("is-default").checked = responsedata.isDefault;
@@ -16,7 +18,9 @@ $.ajax({
 }
 
 function fillPageData(item, index){
-    document.getElementById(item.settingType).value = item.settingData;
+    if(document.getElementById(item.settingType)){
+        document.getElementById(item.settingType).value = item.settingData;
+    }
 }
 
 function saveSettings(){
@@ -52,4 +56,12 @@ var accountData = { name:document.getElementById("account-name").value,
                //location.reload();
             }
         })
+}
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
 }

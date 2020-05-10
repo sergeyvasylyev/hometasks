@@ -75,7 +75,7 @@ function updateCourse(){
                     room:document.getElementById("room").value,
                     section:document.getElementById("section").value
                 },
-                success:function(responsedata){
+                success:function(){
                     location.reload();
                 }
             })
@@ -87,7 +87,7 @@ function deleteCourse(){
                 type:"DELETE",
                 url:'/course/' + var1,
                 dataType: "json",
-                success:function(responsedata){
+                success:function(){
                     location.reload();
                 }
             })

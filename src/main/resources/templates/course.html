@@ -18,13 +18,15 @@
     <table id="courseTable" class="display table table-bordered"
            data-pagination="true"
            data-id-field="id"
-           data-page-list="[10, 25, 50, 100, all]">
+           data-page-list="[10, 25, 50, 100, all]"
+           data-search="true">
         <thead>
         <tr>
             <th data-field="id" data-visible="false">ID</th>
             <th data-field="name">Name</th>
             <th data-field="descriptionHeading">Description</th>
-            <th data-field="alternateLink">Link</th>
+            <th data-field="alternateLink" data-searchable="false">Link</th>
+            <th data-field="account.name" data-sortable="true">Account</th>
         </tr>
         </thead>
     </table>

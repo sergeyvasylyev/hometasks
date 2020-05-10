@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
@@ -59,6 +60,13 @@ public class CourseWorkServiceImpl implements CourseWorkService {
                 .map(c -> c.getId())
                 .collect(Collectors.toList());
         List<CourseWorkModel> courseWorkModelList = courseWorkRepository.findAllById(courseWorkIds);
+
+        boolean updateGS = false;
+        if (courseWorkDtoList.size() > 0) {
+            updateGS = appSettingsService.findByAccountIdByType(courseWorkDtoList.get(0).getCourse().getAccount().getName(),
+                    SettingType.GOOGLE_SHEETS_USE_STATUS).getSettingData().equals("active");
+        }
+
         for (CourseWorkDto courseWorkDto : courseWorkDtoList) {
             if (isNull(courseWorkModelList.stream()
                     .filter(c -> c.getId().equals(courseWorkDto.getId())).findFirst().orElse(null))) {
@@ -72,15 +80,17 @@ public class CourseWorkServiceImpl implements CourseWorkService {
                 log.info("Course Work saved. id:" + courseWorkDto.getId());
 
                 //send to telegram
-                telegramNotifier.sendToTelegram("New Hometask: "
-                        + "\nCourse: " + courseWorkDto.getCourse().getName()
-                        + "\nTitle: " + courseWorkDto.getTitle()
-                        + "\nLink: " + courseWorkDto.getAlternateLink()
-                        + (nonNull(courseWorkDto.getDueDate()) ? "\nDue date: " + courseWorkDto.getDueDate().toString() : "")
+                telegramNotifier.sendToTelegram(courseWorkDto.getCourse().getAccount(),
+                        "New Hometask: "
+                                + "\nAccount: " + courseWorkDto.getCourse().getAccount().getName()
+                                + "\nCourse: " + courseWorkDto.getCourse().getName()
+                                + "\nTitle: " + courseWorkDto.getTitle()
+                                + "\nLink: " + courseWorkDto.getAlternateLink()
+                                + (nonNull(courseWorkDto.getDueDate()) ? "\nDue date: " + courseWorkDto.getDueDate().toString() : "")
                 );
 
                 //update google sheets
-                if (appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_SHEETS_USE_STATUS).equals("active")) {
+                if (updateGS) {
                     try {
                         googleSheetsService.appendRow(courseWorkDto);
                     } catch (IOException e) {
@@ -89,7 +99,6 @@ public class CourseWorkServiceImpl implements CourseWorkService {
                         log.error("Error updating google sheet: " + e.getMessage());
                     }
                 }
-
             } //else {
             //log.info("Course Work already exist. id:" + courseWorkDto.getId());
             //}
@@ -129,6 +138,14 @@ public class CourseWorkServiceImpl implements CourseWorkService {
         return courseWorkRepository.findAll().stream()
                 .filter(cw -> cw.getCourseId().equals(courseId))
                 .map(cw -> courseWorkMapper.toDto(cw))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<CourseWorkDto> findByIds(Iterable<String> idList) {
+        return courseWorkRepository.findAllById(idList).stream()
+                .map(c -> courseWorkMapper.toDto(c))
                 .collect(Collectors.toList());
     }
 

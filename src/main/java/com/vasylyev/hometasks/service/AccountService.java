@@ -1,6 +1,7 @@
 package com.vasylyev.hometasks.service;
 
 import com.vasylyev.hometasks.dto.AccountDto;
+import com.vasylyev.hometasks.dto.AccountSimpleDto;
 
 import java.util.List;
 
@@ -14,5 +15,11 @@ public interface AccountService {
     AccountDto getDefaultAccount();
 
     List<AccountDto> findAll();
+
+    List<AccountSimpleDto> findAllSimple();
+
+    List<AccountDto> findAllActive();
+
+    List<AccountSimpleDto> findAllActiveSimple();
 
 }

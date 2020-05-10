@@ -11,15 +11,19 @@ import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.model.Course;
 import com.google.api.services.classroom.model.ListCourseWorkResponse;
 import com.google.api.services.classroom.model.ListCoursesResponse;
+import com.google.api.services.classroom.model.ListStudentSubmissionsResponse;
+import com.vasylyev.hometasks.dto.AccountDto;
 import com.vasylyev.hometasks.dto.CourseDto;
 import com.vasylyev.hometasks.dto.CourseWorkDto;
+import com.vasylyev.hometasks.dto.StudentSubmissionDto;
 import com.vasylyev.hometasks.exception.ElementNotFoundException;
 import com.vasylyev.hometasks.mapper.CourseMapper;
 import com.vasylyev.hometasks.mapper.CourseWorkMapper;
+import com.vasylyev.hometasks.mapper.StudentSubmissionMapper;
 import com.vasylyev.hometasks.model.enums.SettingType;
-import com.vasylyev.hometasks.service.AccountService;
 import com.vasylyev.hometasks.service.AppSettingsService;
 import com.vasylyev.hometasks.service.CourseWorkService;
+import com.vasylyev.hometasks.service.StudentSubmissionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -39,31 +43,31 @@ public class ClassroomService {
 
     private final CourseMapper courseMapper;
     private final CourseWorkMapper courseWorkMapper;
+    private final StudentSubmissionMapper studentSubmissionMapper;
     private final CourseWorkService courseWorkService;
+    private final StudentSubmissionService studentSubmissionService;
     private final AppSettingsService appSettingsService;
-    private final AccountService accountService;
     private final GoogleAuthorizationCodeFlow googleAuth;
 
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
-    public List<CourseDto> getCourses() throws IOException, GeneralSecurityException {
-        Classroom service = getClassroom();
+    public List<CourseDto> getCourses(AccountDto accountDto) throws IOException, GeneralSecurityException {
+        Classroom service = getClassroom(accountDto.getName());
         ListCoursesResponse response = service.courses().list().execute();
-
         List<Course> courses = response.getCourses();
         if (courses == null || courses.size() == 0) {
             throw new ElementNotFoundException("Courses not found");
         }
         return courses.stream()
-                .map(c -> courseMapper.toDto(c))
+                .map(c -> courseMapper.toDto(c, accountDto))
                 .collect(Collectors.toList());
     }
 
-    public List<CourseWorkDto> getCourseWork() throws IOException, GeneralSecurityException {
-        Classroom service = getClassroom();
+    public List<CourseWorkDto> getCourseWork(AccountDto accountDto) throws IOException, GeneralSecurityException {
+        List<CourseWorkDto> courseWorkDtoList = new ArrayList<>();
+        Classroom service = getClassroom(accountDto.getName());
         ListCoursesResponse response = service.courses().list().execute();
 
-        List<CourseWorkDto> courseWorkDtoList = new ArrayList<>();
         for (Course course : response.getCourses()) {
             ListCourseWorkResponse courseWorkResponse = service.courses().courseWork().list(course.getId()).execute();
             if (nonNull(courseWorkResponse) && !courseWorkResponse.isEmpty()) {
@@ -75,14 +79,33 @@ public class ClassroomService {
         return courseWorkService.fillCourseById(courseWorkDtoList);
     }
 
-    private Classroom getClassroom() throws GeneralSecurityException, IOException {
+    public List<StudentSubmissionDto> getStudentSubmission(AccountDto accountDto, List<CourseWorkDto> courseWorkDtoList) throws IOException, GeneralSecurityException {
+        Classroom service = getClassroom(accountDto.getName());
+        List<StudentSubmissionDto> studentSubmissionDtoList = new ArrayList<>();
+
+        List<String> courseWorkIdWithGrades = studentSubmissionService.findAllCourseWorkIdWithGrades();
+        List<CourseWorkDto> courseWorkDtoListToAdd = courseWorkDtoList.stream()
+                .filter(cw -> courseWorkIdWithGrades.indexOf(cw.getId()) < 0)
+                .collect(Collectors.toList());
+
+        for (CourseWorkDto courseWorkDto : courseWorkDtoListToAdd) {
+            service.courses().courseWork().studentSubmissions().list(
+                    courseWorkDto.getCourseId(),
+                    courseWorkDto.getId()
+            ).execute().getStudentSubmissions()
+                    .forEach(s -> studentSubmissionDtoList.add(studentSubmissionMapper.toDto(s)));
+        }
+        return studentSubmissionService.fillCourseAndCourseWorkById(studentSubmissionDtoList);
+    }
+
+    private Classroom getClassroom(String accountName) throws GeneralSecurityException, IOException {
         final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
 
         return new Classroom.Builder(httpTransport,
                 JSON_FACTORY,
-                new AuthorizationCodeInstalledApp(googleAuth, receiver).authorize(accountService.getDefaultAccount().getName())
+                new AuthorizationCodeInstalledApp(googleAuth, receiver).authorize(accountName)
         ).setApplicationName(appSettingsService.getSettingDataForDefaultAccount(SettingType.GOOGLE_APP_NAME))
                 .build();
     }

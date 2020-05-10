@@ -16,4 +16,5 @@ public class CourseDto {
     private String name;
     private String room;
     private String section;
+    private AccountDto account;
 }

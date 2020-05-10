@@ -8,6 +8,7 @@ import com.vasylyev.hometasks.service.AppSettingsService;
 import com.vasylyev.hometasks.service.JobHistoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,9 +31,11 @@ public class SettingsController {
     private final JobHistoryService jobHistoryService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getSettings() {
+    public ModelAndView getSettings(@ModelAttribute(value = "name") String name) {
         ModelAndView modelSettings = new ModelAndView();
-        modelSettings.addObject("appSettings", appSettingsService.findAll());
+        //modelSettings.addObject("appSettings", appSettingsService.findAll());
+        modelSettings.addObject("appSettings", appSettingsService.findByAccountId(name));
+        modelSettings.addObject("name", name);
         modelSettings.setViewName("settings");
         return modelSettings;
     }
@@ -42,9 +45,22 @@ public class SettingsController {
         accountService.addAccount(accountDto);
     }
 
+//    @RequestMapping(value = "/{accountName}", method = RequestMethod.GET)
+//    public ModelAndView getSettingsForAccount(@PathVariable String accountName) {
+//        ModelAndView modelSettings = new ModelAndView();
+//        modelSettings.addObject("appSettings", appSettingsService.findByAccountId(accountName));
+//        modelSettings.setViewName("settings");
+//        return modelSettings;
+//    }
+
     @RequestMapping(value = "/getDefault", method = RequestMethod.GET)
     public AccountDto getDefaultAccount() {
         return accountService.getDefaultAccount();
+    }
+
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public AccountDto getAccount(@ModelAttribute(value = "name") String name) {
+        return accountService.findByName(name);
     }
 
     @RequestMapping(value = "/force", method = RequestMethod.GET)

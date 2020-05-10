@@ -39,7 +39,7 @@ public class CourseController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public List<CourseDto> updateCourses() throws IOException, GeneralSecurityException {
-        courseService.addCourses(classroomService.getCourses());
+        //courseService.addCourses(classroomService.getCourses());
         log.info("Update course by user request.");
         return courseService.findAll();
     }

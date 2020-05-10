@@ -11,7 +11,9 @@ public interface AppSettingsService {
 
     AppSettingsDto findById(Long id);
 
-    AppSettingsDto findByType(SettingType settingType);
+    List<AppSettingsDto> findByAccountId(String id);
+
+    AppSettingsDto findByAccountIdByType(String accountId, SettingType settingType);
 
     String getSettingDataForDefaultAccount(SettingType settingType);
 

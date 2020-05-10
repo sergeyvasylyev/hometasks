@@ -25,4 +25,5 @@ public class JobHistory {
     private String name;
     private LocalDateTime executeDate;
     private String status;
+    private String account;
 }

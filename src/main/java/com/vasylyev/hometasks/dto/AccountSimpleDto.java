@@ -5,15 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountDto {
+public class AccountSimpleDto {
     private String name;
     private Boolean isDefault;
-    private List<AppSettingsDto> appSettings;
     private Boolean active;
 }

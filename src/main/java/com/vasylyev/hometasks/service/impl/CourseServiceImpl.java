@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Service
@@ -42,7 +43,9 @@ public class CourseServiceImpl implements CourseService {
                 .collect(Collectors.toList());
         List<CourseModel> courseModelList = courseRepository.findAllById(courseIds);
         for (CourseDto courseDto : courseDtoList) {
-            if (isNull(courseModelList.stream().filter(c -> c.getId().equals(courseDto.getId())).findFirst().orElse(null))) {
+            if (isNull(courseModelList.stream()
+                    .filter(c -> c.getId().equals(courseDto.getId()) && nonNull(c.getAccount()))
+                    .findFirst().orElse(null))) {
                 courseRepository.save(courseMapper.toModel(courseDto));
                 log.info("Course saved. id:" + courseDto.getId());
             } //else {
@@ -73,6 +76,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public List<CourseDto> findByIds(Iterable<String> idList) {
         return courseRepository.findAllById(idList).stream()
                 .map(c -> courseMapper.toDto(c))

@@ -2,8 +2,10 @@ package com.vasylyev.hometasks.telegram;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vasylyev.hometasks.dto.AccountDto;
+import com.vasylyev.hometasks.dto.AppSettingsDto;
 import com.vasylyev.hometasks.dto.SubscriberDto;
-import com.vasylyev.hometasks.model.Subscriber;
+import com.vasylyev.hometasks.model.enums.SettingType;
 import com.vasylyev.hometasks.model.telegram.TelegramBotUpdate;
 import com.vasylyev.hometasks.model.telegram.TelegramChat;
 import com.vasylyev.hometasks.service.SubscriberService;
@@ -22,6 +24,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -31,18 +35,30 @@ public class TelegramNotifier {
     private final ObjectMapper objectMapper;
     private final TelegramBot telegramBot;
 
-    public void sendToTelegram(String message) {
-        List<SubscriberDto> subscriberList = subscriberService.findAllActive();
+    public void sendToTelegram(AccountDto accountDto, String message) {
+        List<SubscriberDto> subscriberList = subscriberService.findAllActiveByAccountId(accountDto.getName());
         for (SubscriberDto subscriber : subscriberList) {
-            SendMessage sm = new SendMessage();
-            sm.setText(message)
-                    .setChatId(subscriber.getChatId());
-            try {
-                telegramBot.execute(sm);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
+
+            //if current account setting will use default telegram bot
+            //then use token from bean
+            //else wil send ignore bean - with http
+            AppSettingsDto settingsDto = accountDto.getAppSettings().stream()
+                    .filter(appS -> appS.getSettingType().equals(SettingType.TELEGRAM_BOT_TOKEN))
+                    .findFirst()
+                    .orElse(null);
+            if (nonNull(settingsDto)
+                    && !settingsDto.getSettingData().equals(telegramBot.getBotToken())) {
+                sendWithHTTP(subscriber, message);
+            } else {
+                SendMessage sm = new SendMessage();
+                sm.setText(message)
+                        .setChatId(subscriber.getChatId());
+                try {
+                    telegramBot.execute(sm);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
             }
-            //sendWithHTTP(subscriber, message);
         }
     }
 
@@ -90,7 +106,7 @@ public class TelegramNotifier {
         return null;
     }
 
-    private void sendWithHTTP(Subscriber subscriber, String message) {
+    private void sendWithHTTP(SubscriberDto subscriber, String message) {
         HttpClient client = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
                 .version(HttpClient.Version.HTTP_2)
