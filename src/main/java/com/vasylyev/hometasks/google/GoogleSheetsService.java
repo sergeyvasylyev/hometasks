@@ -28,7 +28,7 @@ import static java.util.Objects.nonNull;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class GoogleSheetsService {
+public class  GoogleSheetsService {
 
     private final AppSettingsService appSettingsService;
     private final AccountService accountService;

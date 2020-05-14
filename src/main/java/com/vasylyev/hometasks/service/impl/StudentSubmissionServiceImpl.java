@@ -98,11 +98,11 @@ public class StudentSubmissionServiceImpl implements StudentSubmissionService {
                     //.filter(c -> Double.compare(c.getAssignedGrade(), studentSubmissionDto.getAssignedGrade()) == 0)
                     .findFirst().orElse(null);
             Double existingGrade = 0D;
-            if (nonNull(studentSubmissionExist)){
+            if (nonNull(studentSubmissionExist)) {
                 existingGrade = studentSubmissionExist.getAssignedGrade();
             }
-            if (isNull(studentSubmissionExist) ||
-                    !(Double.compare(existingGrade, studentSubmissionDto.getAssignedGrade()) == 0)) {
+            if (isNull(studentSubmissionExist)
+                    || !(Double.compare(existingGrade, studentSubmissionDto.getAssignedGrade()) == 0)) {
                 studentSubmissionRepository.save(studentSubmissionMapper.toModel(studentSubmissionDto));
                 log.info("Student submission saved. course id:" + studentSubmissionDto.getCourseId() + ". submission id:" + studentSubmissionDto.getId());
 

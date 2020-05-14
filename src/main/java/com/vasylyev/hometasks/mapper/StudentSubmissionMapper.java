@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 @Slf4j
@@ -54,18 +53,17 @@ public class StudentSubmissionMapper {
 
     public StudentSubmissionDto toDto(StudentSubmission studentSubmission) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss[.SSS]X");
 //        String assignedSubmission = Objects.nonNull(studentSubmission.getAssignmentSubmission()) ?
 //                studentSubmission.getAssignmentSubmission().toString() :
 //                "";
+
         LocalDateTime creationTime = null;
-        LocalDateTime updateTime = null;
-        try {
-            creationTime = Objects.nonNull(studentSubmission.getCreationTime()) ? LocalDateTime.parse(studentSubmission.getCreationTime(), formatter) : null;
-            updateTime = Objects.nonNull(studentSubmission.getUpdateTime()) ? LocalDateTime.parse(studentSubmission.getUpdateTime(), formatter) : null;
-        } catch (DateTimeParseException e) {
-            System.out.println(studentSubmission.getId() + ". Creation time: " + studentSubmission.getCreationTime() + ". " + e.getMessage());
+        if (Objects.nonNull(studentSubmission.getCreationTime())) {
+            creationTime = LocalDateTime.parse(studentSubmission.getCreationTime(), formatter);
         }
+        LocalDateTime updateTime = Objects.nonNull(studentSubmission.getUpdateTime()) ? LocalDateTime.parse(studentSubmission.getUpdateTime(), formatter) : null;
+
         return StudentSubmissionDto.builder()
                 .alternateLink(studentSubmission.getAlternateLink())
                 .assignedGrade(Objects.nonNull(studentSubmission.getAssignedGrade()) ? studentSubmission.getAssignedGrade() : 0)

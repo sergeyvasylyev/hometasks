@@ -11,7 +11,6 @@ import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.model.Course;
 import com.google.api.services.classroom.model.ListCourseWorkResponse;
 import com.google.api.services.classroom.model.ListCoursesResponse;
-import com.google.api.services.classroom.model.ListStudentSubmissionsResponse;
 import com.vasylyev.hometasks.dto.AccountDto;
 import com.vasylyev.hometasks.dto.CourseDto;
 import com.vasylyev.hometasks.dto.CourseWorkDto;

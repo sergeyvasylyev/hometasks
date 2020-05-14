@@ -1,6 +1,5 @@
 package com.vasylyev.hometasks.service;
 
-import com.google.api.services.classroom.model.StudentSubmission;
 import com.vasylyev.hometasks.dto.StudentSubmissionDto;
 
 import java.util.List;

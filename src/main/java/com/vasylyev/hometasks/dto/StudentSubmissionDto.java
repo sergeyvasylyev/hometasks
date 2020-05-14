@@ -1,7 +1,5 @@
 package com.vasylyev.hometasks.dto;
 
-import com.vasylyev.hometasks.model.CourseModel;
-import com.vasylyev.hometasks.model.CourseWorkModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +28,5 @@ public class StudentSubmissionDto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime updateTime;
     private String userId;
-
-
 
 }
